@@ -1,0 +1,196 @@
+<div id="modify" style='display:none;'>
+    <form id="modifyform" name="modifyform">
+        <div class="form">
+            <div class="formTitle" id="formTitle">调整交易</div>
+            <table cellSpacing="0" cellPadding="4" width="100%" border="0" class="label7">
+                <tr>
+                    <td>
+                        <label>EFT编号</label> <input type=text name="eftNo" readonly class="readonly" maxlength=20>
+                    </td>
+                    <td>
+                        <label>交易卡号</label> <input type=text name="cardAsn" readonly class="readonly" maxlength=20>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>交易金额(元)</label> <input type=text name="amount" id="amount"
+                                                      onblur="checkV(this,'amount', true)" maxlength=20>
+                    </td>
+                    <td>
+                        <label>交易积分额</label> <input type=text name="loyaltyAmount" onblur="checkV(this,'amount', true)"
+                                                    maxlength=20>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>交易账户余额</label> <input type=text name="balance" readonly class="readonly" maxlength=20>
+                    </td>
+                    <td>
+                        <label>交易日期</label> <input type=text name="occurTime" readonly class="readonly" maxlength=20>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>交易类型</label> <input type=text name="tradeType" readonly class="readonly" maxlength=20>
+                    </td>
+                    <td>
+                        <label>交易状态</label> <input type=text name="status" readonly class="readonly" maxlength=20>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>帐户类型</label> <input type=text name="accountType" readonly class="readonly" maxlength=20>
+                    </td>
+                    <td>
+                        <label>IC卡流水号</label> <input type=text name="offlineTxNo" readonly class="readonly"
+                                                     maxlength=20>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>RPOS编号</label> <input type=text name="rposNo" readonly class="readonly" maxlength=20>
+                    </td>
+                    <td>
+                        <label>业务日期</label> <input type=text name="businessDate" readonly class="readonly" maxlength=20>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>PSAM卡终端号</label> <input type=text name="psamAsn" readonly class="readonly" maxlength=20>
+                    </td>
+                    <td>
+                        <label>PSAM卡流水号</label> <input type=text name="psamTraceNo" readonly class="readonly"
+                                                       maxlength=20>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>交易TAC</label> <input type=text name="tac" readonly class="readonly" maxlength=20>
+                    </td>
+                    <td>
+                        <label>银行卡卡号</label> <input type=text name="bankCard" readonly class="readonly" maxlength=20>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>班次号</label> <input type=text name="shiftNum" readonly class="readonly" maxlength=20>
+                    </td>
+                    <td>
+                        <label>加油枪号</label> <input type=text name="nozzle" readonly class="readonly" maxlength=20>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>调整金额(元)</label> <input type=text name="modifyAmount" id="modifyAmount"
+                                                      onblur="checkV(this,'amount', true)" readonly class="readonly"
+                                                      maxlength=20>
+                    </td>
+                    <td>
+                        <label>调整积分额</label> <input type=text name="modifyLoyalty" onblur="checkV(this,'amount', true)"
+                                                    readonly class="readonly" maxlength=20>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>积分有效期</label> <input type=text name="loyaltyDate" onblur="checkV(this,'number')" readonly
+                                                    class="readonly" maxlength=6>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <p>
+            <button type="button" onclick="modifyTrade()">调整</button>
+            <button type="button" onclick="delTrade()">删除</button>
+            <button type="button" onclick="switchPage('listView')">返 回</button>
+        </p>
+    </form>
+</div>
+
+<!--添加交易-->
+<div id="add" style='display:none;'>
+    <form id="addform" name="addform">
+        <div class="form">
+            <div class="formTitle" id="formTitle">添加交易</div>
+            <table cellSpacing="0" cellPadding="4" width="100%" border="0" class="label7">
+                <tr>
+                    <td>
+                        <label>交易类型</label> <select name="type">
+                        <option></option>
+                    </select>
+                    </td>
+                    <td>
+                        <label>EFT编号</label> <input type=text name="eftNo" onblur="checkV(this,'number')" maxlength=12>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>IC卡卡号</label> <input type=text name="cardAsn" onblur="checkV(this,'asn')" maxlength=16>
+                    </td>
+                    <td>
+                        <label>银行卡卡号</label> <input type=text name="bankCardAsn" onblur="checkV(this,'number')"
+                                                    maxlength=20>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>交易金额(元)</label> <input type=text name="amount" id="amount"
+                                                      onblur="checkV(this,'amount', true)" maxlength=20><span
+                            class="des">*</span>
+                    </td>
+                    <td>
+                        <label>积分消费点数</label> <input type=text name="loyaltyAmount" id="loyaltyAmount"
+                                                     onblur="checkV(this,'long')" maxlength=20>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>IC卡流水号</label> <input type=text name="offlineTxNo" onblur="checkV(this,'number')"
+                                                     maxlength=20>
+                    </td>
+                    <td>
+                        <label>帐户余额(分/点)</label> <input type=text name="balance" onblur="checkV(this,'amount')"
+                                                        maxlength=20>
+                    </td>
+                </tr>
+                <tr>
+                    <td id="tradeTimeTd">&nbsp;</td>
+                    <td id="businessTimeTd">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>PSAM卡终端号</label> <input type=text name="psamAsn" onblur="checkV(this,'number')"
+                                                       maxlength=12>
+                    </td>
+                    <td>
+                        <label>PSAM卡流水号</label> <input type=text name="psamTraceNo" onblur="checkV(this,'number')"
+                                                       maxlength=20>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>交易TAC</label> <input type=text name="tac" maxlength=8>
+                    </td>
+                    <td>
+                        <label>IC卡扣款类型</label> <input type=text name="consumeType" onblur="checkV(this,'number')"
+                                                      maxlength=3>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>积分有效期</label> <input type=text name="loyaltyDate" onblur="checkV(this,'number')"
+                                                    maxlength=6>
+                    </td>
+                    <td>
+                        <label>银行交易流水号</label> <input type=text name="bankTrace" onblur="checkV(this,'number')"
+                                                      maxlength=15>
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+        <p>
+            <button type="button" onclick="addTrade()">保存</button>
+            <button type="button" onclick="switchPage('listView')">返 回</button>
+        </p>
+    </form>
+</div>

@@ -1,0 +1,214 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="author" content="">
+    <TITLE></TITLE>
+    <script LANGUAGE="javascript" src="/script/common.js" type="text/javascript"></script>
+    <script language="javascript" type="text/javascript">
+        //全局变量
+        var org = Common.cOrg();	//当前单位
+        var qt = {};				//数据表格对象
+        var cnt = {};
+        //页面加载方法
+        function load() {
+            Eui.showNavigation();
+
+            Eui.initBeginDateInput("beginDateTd", "起始日期", "searchForm", "beginDate", "endDate", "_pastDate");
+            Eui.initEndDateInput("endDateTd", "结束日期", "searchForm", "beginDate", "endDate", "_pastDate");
+
+            setPages(["datalist", "detread"]);
+            createTable();
+            showData();
+        }
+        //生成表格，创建QueryTable对象(查询)
+        function createTable() {
+            var columns = [];
+            columns[7] = {title: "操作", width: "15", render: operationFunc, align: "center", order: false};
+            qt = new QueryTable("eps_upload_status",
+                "searchForm",
+                "datalist",
+                columns,
+                {buttons: [{value: "手工日结", actions: gotoEOF}, {value: "撤销最后一笔日结", actions: cancelLastEOD}]}
+            );
+        }
+        function gotoEOF() {
+            openDialogFrame("../query/eps_endofday.html", "手工日结", 500, 780, null, true);
+            showData();
+        }
+        var data = {}
+        function operationFunc(v, r, floor) {
+            data[floor] = r
+            var name
+            if (r[7] == 3) {
+                name = "查看"
+            } else {
+                name = "对账"
+            }
+            var str = "<a href=# onclick=showDetail('" + floor + "')>" + name + "</a>";
+            return str
+        }
+
+        function uploadShift() {
+
+            DWR.call("epsEAIService.uploadShiftTrades", function (v) {
+                showInformation("总共上传交易记录:" + v);
+            });
+        }
+        function uploadProcess(id) {
+            if (showQuestion("上传后日结不可撤销，是否上传？")) {
+                DWR.call("epsEAIService.reUploadDayTrades", id, function (v) {
+                    showInformation("产生交易记录:" + v);
+                });
+            }
+        }
+
+        function cancelLastEOD() {
+            if (showQuestion("是否撤销最后一笔日结？")) {
+                DWR.call("tradeService.cancelLastEOD", function (v) {
+                    showInformation(v);
+                });
+            }
+            showData();
+        }
+
+        function showData() {
+            qt.showTable();
+        }
+
+        function showDetail(floor) {
+            var v = openDialogFrame("../query/eps_trade_list.html?businessDate=" + data[floor][1] + "&beginTime=" + data[floor][2] + "&endTime=" + data[floor][3] + "&status=" + data[floor][7] + "&id=" + data[floor][0], "明细", 500, 780, null, true);
+            if (v == null || v) {
+                qt.showTable();
+            }
+        }
+        function test() {
+            if (id == null)
+                return;
+            DWR.call("epsService.getReconciliationResult", id, function (apply) {
+                apply.status = Common.getText("reconciliation_status", apply.status);
+                if (apply.businessDate != null)
+                    apply.businessDate = apply.businessDate.format("yyyy-MM-dd");
+                if (apply.beginTime != null)
+                    apply.beginTime = apply.beginTime.format("yyyy-MM-dd hh:mm:ss");
+                if (apply.endTime != null)
+                    apply.endTime = apply.endTime.format("yyyy-MM-dd hh:mm:ss");
+                if (apply.createTime != null)
+                    apply.createTime = apply.createTime.format("yyyy-MM-dd hh:mm:ss");
+                if (apply.uploadTime != null)
+                    apply.uploadTime = apply.uploadTime.format("yyyy-MM-dd hh:mm:ss");
+                apply.icTotalAmount = Format.fenToYuan(apply.icTotalAmount);
+                apply.icLoyaltyAmount = Format.fenToYuan(apply.icLoyaltyAmount);
+                apply.bankAmount = Format.fenToYuan(apply.bankAmount)
+
+                Common.setValues("demandform", apply);
+                $('formTitle').innerHTML = "记录:" + apply.id;
+                switchPage("detread");
+            });
+        }
+
+        function modifyBusinessDate() {
+            var businessDate = demandform.businessDate.value
+            DWR.call("tradeService.modifyLastEOSBusinessDate", demandform.id.value, businessDate, function (v) {
+                showInformation(v);
+            });
+        }
+
+    </script>
+</head>
+<body onload="load()">
+<!--页面导航-->
+<div class="nav">
+    <div id="nav">&nbsp;</div>
+</div>
+<!--查询静态页面部分-->
+<div id="listview" class="searchForm">
+    <form id="searchForm" name="searchForm">
+        <input type="hidden" id="location" name="location">
+        <table cellSpacing=0 cellPadding=4 width="100%" border=0>
+            <tr>
+                <td id="beginDateTd"></td>
+                <td id="endDateTd"></td>
+                <td>
+                    <button type="button" onclick="showData()">查 询</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<div id="datalist"></div>
+
+<!--明细静态显示部分，显示日结的明细-->
+<div id="detread" style='display:none;'>
+    <form id="demandform" name="demandform">
+        <input type="hidden" name="id" readonly class="readonly" maxlength=20>
+        <div class="form">
+            <div class="formTitle" id="formTitle">对账记录明细</div>
+            <table cellSpacing="0" cellPadding="4" width="100%" border="0" class="label12">
+                <tr>
+                    <td>
+                        <label>统计时间段开始时间</label> <input type=text name="beginTime" readonly class="readonly"
+                                                        maxlength=20>
+                    </td>
+                    <td>
+                        <label>统计时间段结束时间</label> <input type=text name="endTime" readonly class="readonly" maxlength=20>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>业务日期</label> <input type="text" name="businessDate" readonly class="readonly"
+                                                   onBlur="checkV(this,'date')">
+                    </td>
+                    <td>
+                        <label>对账时间</label> <input type=text name="createTime" readonly class="readonly" maxlength=20>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>IC卡交易总金额(元)</label> <input type=text name="icTotalAmount" readonly class="readonly"
+                                                          maxlength=20>
+                    </td>
+                    <td>
+                        <label>IC卡交易总笔数</label> <input type=text name="icTotalNumber" readonly class="readonly"
+                                                       maxlength=20>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>IC卡积分交易总金额(元)</label> <input type=text name="icLoyaltyAmount" readonly class="readonly"
+                                                            maxlength=20>
+                    </td>
+                    <td>
+                        <label>IC卡积分交易总笔数</label> <input type=text name="icLoyaltyNumber" readonly class="readonly"
+                                                         maxlength=20>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>银行卡交易总金额(元)</label> <input type=text name="bankAmount" readonly class="readonly"
+                                                          maxlength=20>
+                    </td>
+                    <td>
+                        <label>银行卡交易总笔数</label> <input type=text name="bankNumber" readonly class="readonly"
+                                                       maxlength=20>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>交易上传时间</label> <input type=text name="uploadTime" readonly class="readonly" maxlength=20>
+                    </td>
+                    <td>
+                        <label>对账状态</label> <input type=text name="status" readonly class="readonly" maxlength=20>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <p>
+            <button type="button" onclick="switchPage('datalist')">返 回</button>
+        </p>
+    </form>
+</div>
+
+</body>
+</HTML>

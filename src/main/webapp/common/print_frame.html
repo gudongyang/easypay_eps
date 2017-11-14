@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link href='../css/style.css' type=text/css rel=stylesheet>
+    <script type="text/javascript">
+        document.write("<object id=\"printFactory\" style=\"display:none\" viewastext classid=\"clsid:1663ED61-23EB-11D2-B92F-008048FDD814\" codebase=\"../common/smsx.cab#Version=6,3,435,20\"><param name=\"template\" value=\"MeadCo://IE7\" /></object>")
+
+        function setDefault() {
+            printFactory.printing.header = "Card System Report"
+            printFactory.printing.footer = "for card management and analysis"
+            printFactory.printing.portrait = true
+        }
+
+        function setBill() {
+            with (printFactory.printing) {
+                header = ""
+                footer = ""
+                portrait = true
+                topMargin = 0
+                leftMargin = 0
+                //copies = 3
+            }
+        }
+
+        function print() {
+            setBill()
+            //if(!confirm("是否打印？"))return;
+            printFactory.printing.Print(false)
+        }
+
+        function preview() {
+            setBill()
+            printFactory.printing.Preview()
+        }
+
+        function pageSetup() {
+            printFactory.printing.PageSetup()
+        }
+    </script>
+</head>
+<body style="text-align:left" margin=0 padding=0>
+</body>
+</html>

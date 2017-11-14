@@ -1,0 +1,58 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<HEAD>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <TITLE>选择单位帐户</TITLE>
+    <script type="text/javascript" language="JavaScript" src="/script/common.js"></script>
+    <script type="text/javascript" language="JavaScript">
+        var tree, funcType, rangeLevel;
+        var qt;
+        function load() {
+            Common.initDict($("searchForm").idnoType, "idno_type", "请选择")
+            var cardUserType = getPara("cardUserType")
+            var columns = []
+            columns[0] = {type: "radio"}
+            var sqlName = "sel_orguser";
+            if (cardUserType == CardUserType.NAME) {
+                sqlName = "sel_personaluser"
+            }
+            qt = new QueryTable(sqlName, "searchForm", "datalist", columns);
+        }
+
+        function onSave() {
+            var v = qt.getRadioValue(true)
+            var obj;
+            if (v)
+                obj = {id: v[0], uniqueId: v[1], orgName: v[2]}
+            dialogBackValue(obj);
+        }
+    </script>
+</HEAD>
+<BODY class="body" onload='load()'>
+<!--查询form-->
+<div class="searchForm">
+    <form id="searchForm" name="searchForm" action="">
+        <table cellSpacing="0" cellPadding="4" width="100%" border="0">
+            <tr>
+                <td>
+                    <label>证件类型</label>
+                    <select name="idnoType" onblur="checkV(this,'',true)">
+                        <option></option>
+                    </select><span class="des">*</span>
+                </td>
+                <td>
+                    <label>证件号</label>
+                    <input type="text" name="idno" maxlength="20" onblur="checkV(this,'',true)"><span
+                        class="des">*</span>
+                </td>
+                <td>
+                    <button type="button" onclick="qt.showTable()">查 询</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<div id="datalist"></div>
+</BODY>
+</HTML>

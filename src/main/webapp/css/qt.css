@@ -1,0 +1,261 @@
+/***列表***/
+.listBar {
+    color: #000;
+    font-weight: bold;
+    height: 26px;
+}
+
+.listTitle {
+    display: inline;
+    width: 30%;
+    float: left;
+    padding-top: 6px;
+    padding-left: 5px;
+}
+
+.listBtn {
+    display: inline;
+    text-align: right;
+    width: 68%;
+    float: right;
+    padding-top: 3px;
+}
+
+.listForm {
+    margin: 0px;
+    background-color: #F9FFF4;
+    border-bottom: 1px solid #8DB0DB;
+}
+
+.listBorder .listForm {
+    border-bottom: 0px solid;
+}
+
+DIV.listBorder {
+    border: 1px solid #8DB0DB;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: #F2F2F2;
+    width: 95%;
+    text-align: left;
+    margin-left: 0px;
+}
+
+TABLE.list TH {
+    border-right: 1px solid #E8E8E8;
+    border-bottom: 0px solid #D41A00;
+    empty-cells: show;
+    color: #FFFFFF;
+    background-color: #8DB0DB;
+}
+
+TABLE.list TD {
+    border-right: 1px solid #E8E8E8;
+    empty-cells: show;
+}
+
+TABLE.list TD DIV {
+    word-wrap: break-word;
+}
+
+TABLE.list TR {
+    background: url(../images/table/line.gif) left bottom repeat-x;
+    border-right: 1px groove #CCC;
+    background-color: #F7FFFF;
+    height: 20px;
+}
+
+.boxTd {
+    width: 20px;
+    text-align: center;
+}
+
+.page {
+    font: 12px Tahoma, Verdana;
+    border-bottom: 0px solid #CCC;
+}
+
+/**光标*/
+.hand {
+    cursor: pointer;
+}
+
+/*QueryTable CSS*/
+.emptytable {
+    background: #efefef;
+    font-size: 12px;
+    text-align: center;
+}
+
+.tablelayer {
+    position: absolute;
+    display: block;
+    background: #efefef;
+    z-index: 2;
+    font-size: 12px;
+    text-align: center;
+}
+
+.tablelayer TABLE {
+    background: #efefef;
+}
+
+.seclayer {
+    position: absolute;
+    display: block;
+    background: #efefef;
+    z-index: 2;
+    font-size: 12px;
+    text-align: center;
+    filter: alpha(opacity=20);
+    border: 1px solid red;
+}
+
+.conflayer {
+    position: absolute;
+    background-color: #efefef;
+    padding: 5px;
+    border: 1px solid #000000;
+    z-index: 98;
+    text-align: left;
+}
+
+.draglayer {
+    background: url(../images/table/row-over.gif);
+    filter: alpha(opacity=80);
+    position: absolute;
+    border: 1px solid #9a9a9a;
+    z-index: 3;
+    text-align: center;
+    font-size: 12px;
+    font-weight: normal;
+}
+
+.d_l_content_yes {
+    font-size: 12px;
+    padding-left: 20px;
+    background: url(../images/table/drop-yes.gif) no-repeat 1px 4px;
+}
+
+.d_l_content_no {
+    font-size: 12px;
+    padding-left: 20px;
+    background: url(../images/table/drop-no.gif) no-repeat 1px 4px;
+}
+
+.d_l_c_title {
+    border: 1px solid #99BBE8;
+    background: url(../images/table/mso-hd.gif) 0px -3px;
+    margin-top: 3px;
+    margin-right: 3px;
+    padding-top: 2px;
+    font-size: 12px;
+}
+
+.flaglayer {
+    position: absolute;
+    width: 4px;
+    z-index: 98;
+}
+
+.separlayer {
+    width: 2px;
+    background: #000000;
+    cursor: e-resize;
+}
+
+.qthead TABLE {
+    background: url(../images/table/mso-hd.gif);
+    height: 24px;
+    border-top: 1px solid #99BBE8;
+    border-bottom: 1px solid #99BBE8;
+    border-right: 1px solid #99BBE8;
+    line-height: 24px;
+}
+
+.desc {
+    background-image: url("../images/table/sort_desc.gif");
+    background-repeat: no-repeat;
+    background-position: 100% 10px;
+}
+
+.asc {
+    background-image: url("../images/table/sort_asc.gif");
+    background-repeat: no-repeat;
+    background-position: 100% 10px;
+}
+
+.qthead .header_leftdiv {
+    float: left;
+    background: url(../images/table/mso-hd.gif);
+    border-left: 1px solid #99BBE8;
+    height: 24px;
+    width: 2px;
+    cursor: e-resize;
+}
+
+.qthead .last_leftdiv {
+    float: left;
+    background: url(../images/table/mso-hd.gif);
+    height: 24px;
+    width: 3px;
+    cursor: e-resize;
+}
+
+.qthead .normal_leftdiv {
+    float: left;
+    background: url(../images/table/mso-hd.gif);
+    border-left: 1px solid #99BBE8;
+    height: 24px;
+    width: 2px;
+}
+
+.qtdata {
+    overflow-x: hidden;
+    overflow-y: scroll;
+    background: #FFF;
+    border-bottom: 1px solid #99BBE8;
+}
+
+.qtdata TABLE {
+    background: #fefefe;
+}
+
+.qtdata TD {
+    border-bottom: 1px solid #E3EAF3;
+}
+
+.datatddiv {
+    padding-left: 3px;
+}
+
+.col_move_top {
+    background: url(../images/table/col-move-top.gif);
+    width: 9px;
+    height: 9px;
+}
+
+.col_move_middle {
+    width: 9px;
+}
+
+.col_move_bottom {
+    background: url(../images/table/col-move-bottom.gif);
+    width: 9px;
+    height: 9px;
+}
+
+.exportdiv_out {
+    cursor: hand;
+    margin: 1px;
+    padding: 2px;
+    border: 1px solid #bcbcbc;
+}
+
+.exportdiv_over {
+    cursor: hand;
+    margin: 1px;
+    padding: 2px;
+    background: url(../images/table/mso-hd.gif);
+    border: 1px solid #99BBE8;
+}

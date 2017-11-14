@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+
+
+
+-->
+<gateway>
+
+    <!--yyyy-MM-dd HH:mm:ss-->
+    <check id="dateTime">^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$</check>
+    <check id="d2">^\d{1,2}$</check>
+    <check id="countryCode">^US|HK$</check>
+    <check id="currencyCode">^USD|HKD$</check>
+    <check id="merchantCategoryName">
+        ^Accommodation|ALL|AIRLINE|Food &amp; Entertainment|Insurance|Rail|Tour|Travel Agentcy|Vehicle Rental$</check>
+    <check id="integratorReference">^[0-9,a-z,A-Z]{6,30}$</check>
+    <check id="virtualAccountNumber">^\d{15,16}$</check>
+    <check id="cancelReasonStr">
+        ^Booking_Cancelled|Booking_Amended|Duplicate_Request|Error_In_Original_Request|Fraudulent_Use|Possible_Fraudulent_Use$
+    </check>
+
+
+    <param name="integratorReference" nullable="false" checkRef="integratorReference" description="交易参考号"/>
+    <param name="countryCode" checkRef="countryCode" nullable="false" description="国家代码"/>
+    <param name="currencyCode" checkRef="currencyCode" nullable="false" description="货币代码"/>
+    <param name="cardTypeName" nullable="false" description="卡片类型名称"/>
+    <param name="maximumAuthorisationAmount" nullable="false" description="最大授权金额"/>
+    <param name="activationDate" checkRef="dateTime" nullable="false" description="启用日期"/>
+    <param name="expiryDate" checkRef="dateTime" nullable="false" description="过期日期"/>
+    <param name="multiUseClosePercentage" checkRef="d2" nullable="false" description="关闭百分比"/>
+    <param name="merchantCategoryName" checkRef="merchantCategoryName" nullable="false" description="商户类别名称"/>
+    <param name="notes" nullable="false" description="备注"/>
+
+
+    <!--申请虚机账户-->
+    <handler serviceType="issueVAN" level="1" action="eNettService_issueVANInf">
+        <param extends="activationDate"/>
+        <param extends="expiryDate"/>
+        <param extends="maximumAuthorisationAmount"/>
+        <param extends="multiUseClosePercentage"/>
+        <param extends="merchantCategoryName"/>
+        <param extends="integratorReference"/>
+        <param extends="notes"/>
+    </handler>
+
+    <!--修改虚拟账户-->
+    <handler serviceType="amendVAN" level="1" action="eNettService_issueVANInf">
+    </handler>
+
+    <!--撤销虚拟账户  未授权的情况下可以撤销-->
+    <handler serviceType="cancelVAN" level="1" action="eNettService_cancelVAN">
+        <param name="cancelReasonStr" nullable="false" description="取消原因"/>
+        <param extends="integratorReference"/>
+    </handler>
+
+
+    <!--关闭虚拟账户-->
+    <handler serviceType="closeVAN" level="1" action="eNettService_closeVAN">
+        <param extends="integratorReference"/>
+    </handler>
+
+
+    <!--获取账户详情-->
+    <handler serviceType="getVANDetails" level="1" action="eNettService_getVANDetails">
+        <param name="virtualAccountNumber"/>
+    </handler>
+
+
+</gateway>

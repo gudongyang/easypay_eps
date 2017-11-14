@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="author" content="wangzhichao">
+    <title>交易统计</title>
+    <script language="javascript" src="/script/common.js" type="text/javascript"></script>
+    <script language="javascript" src="/script/common_stat.js" type="text/javascript"></script>
+    <script language="javascript" src="/script/crosstab.js" type="text/javascript"></script>
+    <script language="javascript" src="/script/crosstabconf.js" type="text/javascript"></script>
+    <script language="javascript" type="text/javascript">
+        //全局变量
+        var crosstab = new Crosstab();
+        var org = Common.cOrg();	//当前单位
+        var qt = {};				//数据表格对象
+        var pivot;
+        var statForm;
+        //页面加载方法
+        function load() {
+            Eui.showNavigation();
+            statForm = $("statForm");
+            setPages(["queryView", "newPivot"]);
+            //初始化帐户类型(查询form)
+            Common.initDict(statForm.accountType, "account_type", "全 部");
+            //初始化交易状态(查询form)
+            var statusList = [];
+            tlist = Common.getItems("trade_status");
+            for (var i = 0; i < tlist.length; i++) {
+                var b = tlist[i];
+                if (b.code == 2 || b.code == 3 || b.code == 5) {
+                    statusList.push(b);
+                }
+            }
+            Common.initDict(statForm.status, statusList, "全 部");
+            Eui.initBeginDateInput("beginDateTd", "交易起始日期", "statForm", "beginDateAndTime", "endDateAndTime", "_pastDate", false, true);
+            Eui.initEndDateInput("endDateTd", "交易结束日期", "statForm", "beginDateAndTime", "endDateAndTime", "_pastDate", false);
+            Eui.initBeginDateInput("businessDateTd", "业务日期", "statForm", "businessDate", "businessDate", "_pastDate", false);
+            newPivot()
+        }
+        function newPivot() {
+            var crossconf = {};
+            crossconf.measures = {"totalAmount": "总金额", "totalCount": "总笔数"}
+            crossconf.defaultMeasure = {totalAmount: true, totalCount: true};
+            crossconf.dimensions = {"accountType": "帐户类型", "status": "交易状态", "goodsCategory": "商品类别"}
+            crossconf.defaultVertical = {};
+            crossconf.defaultHorizon = {accountType: true, status: true, goodsCategory: true};
+            pivot = new Pivot('newPivot', "eps_category_stat", crossconf, {disableConf: true});
+            //pivot.ShowZero = true;
+            pivot.initConf(crossconf);
+            pivot.setPivotHead('pivotTitle', '加油站交易统计');
+        }
+        function doQuery() {
+            if (!checkForm(statForm))return;
+
+            pivot.param = Common.getValues(statForm);
+            pivot.refresh();
+            switchPage('newPivot');
+        }
+    </script>
+</head>
+<body onload="load()">
+<!--页面导航-->
+<div class="nav">
+    <div id="nav">&nbsp;</div>
+</div>
+<!--查询静态页面部分-->
+<div id="queryView">
+    <!--查询条件form-->
+    <div class="searchForm">
+        <form id="statForm" name="statForm" action="">
+            <input type="hidden" name="iid">
+            <table cellSpacing=0 cellPadding=4 width="100%" border=0>
+                <tr>
+                    <td id="beginDateTd">&nbsp;</td>
+                    <td><label>帐户类型</label> <select name="accountType">
+                        <option></option>
+                    </select></td>
+                </tr>
+                <tr>
+                    <td id="endDateTd">&nbsp;</td>
+                    <td><label>交易状态</label> <select name="status">
+                        <option></option>
+                    </select></td>
+                    <td id="businessDateTd">&nbsp;</td>
+                    <td>
+                        <button type="button" name="saveBtn" onclick="doQuery()">查 询</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+
+
+<!--统计结果显示部分-->
+<div id="newPivot" style="display:none;"></div>
+</body>
+</HTML>

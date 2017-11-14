@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<magicSql>
+    <sql name="partner_mgnt" title="接入机构管理"
+         stmt=" from  Partner  as o  "
+    >
+
+        <option name="partnerId" cond="o.partnerId = ?" type="String"/>
+        <column field="o.id" name="id" title="ID"/>
+        <column field="o.partnerId" name="partnerId"   title="合作方编号"/>
+        <column field="o.name" name="name"   title="合作方名称"/>
+        <column field="o.signKey" name="signKey"   title="签名秘钥"/>
+        <column field="o.signMethod" name="signMethod"   title="签名方法"/>
+        <column field="o.encKey" name="encKey"   title="加密秘钥"/>
+        <column field="o.encMethod" name="encMethod"   title="加密方法"/>
+        <column field="o.status" name="status"   title="状态"/>
+        <column field="o.interfaceVersion" name="version"   title="版本"/>
+        <column field="o.id" name="hId"  hidden="true"  />
+
+    </sql>
+
+</magicSql>

@@ -1,0 +1,135 @@
+#set( $layout ="main.vm" )
+<h5>
+    异步通知
+</h5>
+
+<p>
+    客户支付成功后，易生支付系统异步通知商户系统。 <br>
+    商户系统接收到通知后，要返回SUCCESS.支付系统不再通知。<br>
+    扫码支付。快捷支付交易成功回收到通知。
+</p>
+
+<div id="response">
+    <table class="table table-bordered table-striped">
+        <colgroup>
+            <col class="span1">
+            <col class="span1">
+            <col class="span1">
+            <col class="span1">
+            <col class="span4">
+        </colgroup>
+        <thead>
+
+        <tr>
+            <td colspan="5">基本参数</td>
+        </tr>
+        <tr>
+            <th>参数</th>
+            <th>类型(长度)</th>
+            <th>描述</th>
+            <th>能否为空</th>
+            <th>示例</th>
+        </tr>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td> version</td>
+            <td> String(10)</td>
+            <td> 接口版本</td>
+            <td> NO</td>
+            <td>N2</td>
+        </tr>
+        <tr>
+            <td> sign_type</td>
+            <td> String(5)</td>
+            <td>签名方法 大写的MD5 SHA1</td>
+            <td>YES</td>
+            <td>MD5</td>
+        </tr>
+        <tr>
+            <td> sign</td>
+            <td> String(50)</td>
+            <td>签名结果</td>
+            <td> YES</td>
+            <td>8342649bb0b3b818c9bed5952503b3df</td>
+        </tr>
+        <tr>
+            <td> input_charset</td>
+            <td> String(10)</td>
+            <td> 编码</td>
+            <td>NO</td>
+            <td>UTF-8</td>
+        </tr>
+
+        <tr>
+            <td colspan="5">业务参数</td>
+        </tr>
+
+        <tr>
+            <td> errCode</td>
+            <td> Number(2)</td>
+            <td>交易状态 00 交易成功状态</td>
+            <td> YES</td>
+            <td>00</td>
+        </tr>
+
+        <tr>
+            <td> errCodeDes</td>
+            <td> String(40)</td>
+            <td>交易状态描述</td>
+            <td> YES</td>
+            <td>推送订单成功</td>
+        </tr>
+
+        <tr>
+            <td> codeStr</td>
+            <td> String(50)</td>
+            <td>返回的二维码数据 扫码支付返回</td>
+            <td> YES</td>
+            <td>weixin://wxpay/bizpayurl?pr=yQK9GXr</td>
+        </tr>
+
+        <tr>
+            <td> merchantId</td>
+            <td> String(15)</td>
+            <td>商户编号</td>
+            <td> YES</td>
+            <td>100000</td>
+        </tr>
+
+        <tr>
+            <td> merchantName</td>
+            <td> String(30)</td>
+            <td>商户名称</td>
+            <td> YES</td>
+            <td>上海市XXX超市</td>
+        </tr>
+
+
+        <tr>
+            <td> orderId</td>
+            <td> String(20)</td>
+            <td>商户订单号，商户系统唯一</td>
+            <td> YES</td>
+            <td>20170717100000</td>
+        </tr>
+
+        <tr>
+            <td> orderNo</td>
+            <td> String(30)</td>
+            <td>易生支付订单号,易生支付系统唯一</td>
+            <td> YES</td>
+            <td>2920170717100000</td>
+        </tr>
+        <tr>
+            <td> tradeStatus</td>
+            <td> Number(2)</td>
+            <td>3 成功</td>
+            <td> YES</td>
+            <td>3</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</div>

@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <script language="javascript">
+        /* 获取url中的参数 */
+        function getPara(para) {
+            var str = document.location.href;
+            if (str.indexOf("?") == -1) {
+                return "information";
+            }
+            else {
+                str = str.substring(str.indexOf("?") + 1, str.length);
+            }
+            var params = str.split("&");
+            for (var i = 0; i < params.length; i++) {
+                if (params[i].indexOf(para + "=") == 0) {
+                    return params[i].substring(params[i].indexOf("=") + 1, params[i].length);
+                }
+            }
+        }
+        var title = "";
+        var showCancel = false;
+        var msgType = getPara("msgtype");
+        if (msgType == "error") {
+            title = "错误：";
+        } else if (msgType == "information") {
+            title = "提示：";
+        } else if (msgType == "warning") {
+            title = "请注意：";
+        } else if (msgType == "question") {
+            title = "请确认：";
+            showCancel = true;
+        }
+        document.write("<title>");
+        document.write(title);
+        for (var iii = 0; iii < 10; iii++) {
+            document.write("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+        }
+        document.write("</title>");
+        function backValue(value) {
+            parent.window.returnValue = value;
+            parent.window.close();
+        }
+        function fnInit() {
+            document.getElementById("infoIcon").innerHTML = "<img src='../images/dialog/" + msgType + ".gif' width='52' height='52' hspace='10' align='absmiddle'>";
+            ;
+            if (window.dialogArguments)
+                document.getElementById("info").innerHTML = window.dialogArguments;
+            else
+                document.getElementById("info").innerHTML = unesc(getPara("msg"));
+            if (showCancel) {
+                document.getElementById("cancleBtn").style.display = "";
+            }
+        }
+    </script>
+    <script language="javascript" type="text/javascript" src="../script/common.js"></script>
+    <script id="esc_enter" for="document" event="onkeydown()">
+        if (window.event.keyCode == "27") {
+            parent.parent.close();
+        }
+        if (window.event.keyCode == "13") {
+            if (typeof backValue == "function") {
+                backValue(true);
+            }
+        }
+    </script>
+</head>
+<body scroll="no" onload="fnInit()" class="dialogBg">
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" height="100%">
+    <tr>
+        <td align="center" height="70%">
+            <table width="90%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td width="30%" id="infoIcon" align="right">&nbsp;</td>
+                    <td width="70%" class="bold" id="info">&nbsp;</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td align="center" height="30%">
+            <table width="95%" border="0" cellspacing="0" cellpadding="0">
+                <tr align="center">
+                    <td>
+                        <hr style="margin:0px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        <input type="button" value=" 确 定 " id="confirmBtn" onClick="backValue(true)">
+                        <input type="button" value=" 取 消 " id="cancleBtn" style="display:none"
+                               onClick="backValue(false)">
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

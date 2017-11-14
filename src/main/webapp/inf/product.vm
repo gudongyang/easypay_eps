@@ -1,0 +1,16 @@
+#set( $layout ="main.vm" )
+
+<div  class="media-body" style="display: block;">
+    <h3>产品介绍</h3>
+
+    <p>
+
+    </p>
+
+    <br>
+
+    <ul>
+
+
+    </ul>
+</div>

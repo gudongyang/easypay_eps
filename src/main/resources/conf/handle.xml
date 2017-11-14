@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF8"?>
+
+<!--
+
+<!DOCTYPE magicCard PUBLIC '-//BRS, Inc.//' 'tobedone.dtd'>
+
+    DTD:
+    <magicCard (property)*)>
+
+       <handler name,value>
+-->
+
+<fcgi>
+
+    <handle path="/service/" handler="dWRService_handleWebRequest"/>
+    <handle path="/d/dwr/" handler="dWRService_handleWebRequest"/>
+
+    <handle path="/d/list/" handler="ejbQueryService_handleWebRequest"/>
+    <handle path="/d/crosstab/" handler="crosstabService_handleWebRequest"/>
+    <handle path="/d/bill/" handler="billPrintService_handleWebRequest"/>
+
+    <handle path="/d/gateway/" handler="gatewayHandleService_handleWebRequest"/>
+
+
+    <handle ext="html" handler="velocityService_handleWebRequest"/>
+    <handle ext="htm" handler="velocityService_handleWebRequest"/>
+    <handle ext="js" handler="velocityService_handleWebRequest"/>
+
+    <template bscache="true" urlext="js"/>
+    <template bscache="true" urlext="html" ext="html"/>
+</fcgi>

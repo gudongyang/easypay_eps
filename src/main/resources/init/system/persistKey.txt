@@ -1,0 +1,19 @@
+<header columns="7">
+def e = PersistKey.createByName(r[0])
+
+e.name=r[0]
+e.keyType=r[1]
+e.version=r[2]
+e.keyIndex=r[3]
+e.keyId=r[4]
+e.jmjIndex=Integer.parseInt(r[5])
+e.encryptKey=r[6]
+e.persist()
+
+//e.persistOrMerge()
+</header>
+
+//name,	type,version,index,	id,	jmjIndex,	key
+
+POS,1,1,0,0,0208,0e8badd2b674bb23e9cacf12445346b2
+PASSWORD,1,1,0,0,0208,e4e201afd95096c6d17d353f9a3807ce

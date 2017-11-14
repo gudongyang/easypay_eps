@@ -1,0 +1,58 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="author" content="wangyuguo">
+    <title>eps初始化</title>
+    <script type="text/javascript" src="/script/common.js"></script>
+    <script type="text/javascript">
+        //页面控件初始化
+        function load() {
+            Eui.showNavigation();
+            DWR.call("epsService.getEpsInitConf", function (result) {
+
+                Common.setValues(epsInitForm, result)
+            })
+        }
+
+        function epsInit() {
+            if (!checkForm(epsInitForm))return;
+            DWR.call("ppsTransform.epsInit", epsInitForm.epsOrgNo.value, epsInitForm.ppsIp.value, epsInitForm.ppsPort.value,
+                function (v) {
+                    showInformation("EPS初始化成功,请登录系统");
+                    var doc = parent ? parent.document : document
+                    doc.location.href = "/login.html";
+                }, {blockScreen: true});
+        }
+    </script>
+</head>
+
+<body onload="load()">
+<div class="nav">
+    <div id="nav">&nbsp;</div>
+</div>
+<form id="epsInitForm">
+    <div class="form">
+        <div class="formTitle">Eps初始化</div>
+        <table cellSpacing="0" cellPadding="4" width="100%" border="0" class="label9">
+            <tr>
+                <td><label>机构编号</label> <input type="text" name="epsOrgNo" maxlength="4"
+                                               onblur="checkV(this,'half',true)"><span class=des>*</span></td>
+            </tr>
+            <tr>
+                <td><label>前置服务器IP地址</label> <input type="text" name="ppsIp" maxlength="20"
+                                                    onblur="checkV(this,'',true)"><span class=des>*</span></td>
+            </tr>
+            <tr>
+                <td><label>前置服务器端口号</label> <input type="text" name="ppsPort" maxlength="20"
+                                                   onblur="checkV(this,'int',true)"><span class=des>*</span></td>
+            </tr>
+        </table>
+    </div>
+    <p>
+        <button type="button" onclick="epsInit()">初始化</button>
+        <button type="button" onclick="load()">取 消</button>
+    </p>
+</form>
+</body>
+</html>

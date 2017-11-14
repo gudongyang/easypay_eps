@@ -1,0 +1,116 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="author" content="wangzhichao">
+    <title>EFT终端管理</title>
+    <script language="javascript" src="/script/common.js" type="text/javascript"></script>
+    <script language="javascript" type="text/javascript">
+        //全局变量
+        var org = Common.cOrg();	//当前单位
+        var qt = {};				//数据表格对象
+        //页面加载方法
+        function load() {
+            Eui.showNavigation();
+            setPages(["listview", "detview"])
+            createTable();
+        }
+        //显示、刷新表格
+        function createTable() {
+            var columns = [];
+            columns[0] = {type: "checkbox"};
+            columns[6] = {title: "操作", width: "15", render: editFunc, align: "center", order: false};
+            qt = new QueryTable("eft", "searchForm", "datalist", columns, {});
+
+        }
+        function editFunc(v, r) {//处理数据 点id进入编辑页面
+            return "<a href=# onclick=onEdit('" + r[0] + "')>修改</a>"
+        }
+        //保存方法
+        function onSave() {
+            if (!checkForm("eftDetail"))return;
+            var eft = Common.getValues("eftDetail");
+            DWR.call("epsService.saveEft", eft, function () {
+                showInformation("保存成功!");
+                switchPage('listview');
+                qt.showTable();
+            }, {disCtrl: $('saveBtn')});
+        }
+        //进入修改明细
+        function onEdit(id) {
+            if (id != null) {
+                $('formTitle').innerHTML = "修改EFT信息";
+                DWR.call("epsService.getEft", id, function (eft) {
+                    Common.setValues("eftDetail", eft);
+                    switchPage('detview');
+                });
+            }
+        }
+    </script>
+</head>
+<body onload="load()">
+<!--页面导航-->
+<div class="nav">
+    <div id="nav">&nbsp;</div>
+</div>
+<div id="content">
+    <!--查询静态页面部分-->
+    <div id="listview">
+        <!--查询条件form-->
+        <div class="searchForm">
+            <form id="searchForm" name="searchForm" action="">
+                <input type="hidden" name="iid">
+                <table cellSpacing=0 cellPadding=4 width="100%" border=0>
+                    <tr>
+                        <td><label>EFT编号</label> <input type="text" name="eftId" onblur="checkV(this,'number')"
+                                                        maxlength=12></td>
+                        <td>
+                            <button type="button" onclick="qt.showTable()">查 询</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <div id="datalist"></div>
+    </div>
+    <!--新增-->
+    <div class="detview" id="detview" style='display:none;'>
+        <form id="eftDetail" name="eftDetail">
+            <input type="hidden" name="id">
+            <div class="form">
+                <div class="formTitle" id="formTitle">EFT详细信息</div>
+                <table cellSpacing="0" cellPadding="4" width="100%" border="0" class="label7">
+                    <tr>
+                        <td>
+                            <label>绑定RPOS编号</label> <input type=text name="rposId" onblur="checkV(this,'half')"
+                                                           maxlength=20>
+                        </td>
+                        <td>
+                            <label>编号</label> <input type=text name="uniqueId" readonly class="readonly" maxlength=20>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>软件版本</label> <input type=text name="eftVersion" readonly class="readonly"
+                                                       maxlength=20>
+                        </td>
+                        <td>
+                            <label>Psam卡号</label> <input type=text name="terminalId" readonly class="readonly"
+                                                         maxlength=20>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>IP地址</label> <input type=text name="ip" onblur="checkV(this,'ip')" maxlength=20>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <p align="center">
+                <button type="button" id="saveBtn" name="saveBtn" onclick="onSave()">保 存</button>
+                <button type="button" onclick="switchPage('listview')">返 回</button>
+            </p>
+        </form>
+    </div>
+</body>
+</html>

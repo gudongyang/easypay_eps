@@ -1,0 +1,248 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="author" content="wangzhichao">
+    <title>交易统计</title>
+    <script language="javascript" src="/script/common.js" type="text/javascript"></script>
+    <script type="text/javascript" src="/script/pivot.js"></script>
+    <script type="text/javascript" src="/script/crosstab.js"></script>
+    <script type="text/javascript" src="/script/print.js"></script>
+    <script language="javascript" type="text/javascript">
+        //全局变量
+        var crosstab = new Crosstab();
+        var org = Common.cOrg();	//当前单位
+        var qt = {};				//数据表格对象
+        var searchForm;
+        parent.dialog.hideBar();
+        //页面加载方法
+        function load() {
+            Eui.showNavigation();
+            searchForm = $("searchForm");
+            setPages(["listView", "pivotView", "add", "modify"]);
+            //初始化帐户类型(查询form)
+            Common.initDict(searchForm.accountType, "account_type", "全 部");
+            Rpc.loadPage("epsTradeDiv", "/query/eps_trade_div.html")
+            addForm = $("addform");
+            var statusList = [];
+            tlist = Common.getItems("trade_type");
+            for (var i = 0; i < tlist.length; i++) {
+                var b = tlist[i];
+                if (b.code == 10 || b.code == 11 || b.code == 13 || b.code == 30) {
+                    statusList.push(b);
+                }
+            }
+            Common.initDict(addForm.type, statusList);
+
+            getBeginTime();
+            var status = getPara("status")
+            if (status == 3) {
+                $("buttonTd").innerHTML = "<button onclick='anewUploadProcess(" + getPara("id") + ")'>重新上传</button>"
+            } else {
+                $("buttonTd").innerHTML = "<button onclick='uploadProcess(" + getPara("id") + ")'>上传</button>"
+            }
+            $("tradeTimeTd").innerHTML = Eui.getDateInput("终端交易日期", "addform", "occurTimeAndTime", "dateTime", true, true);
+            $("businessTimeTd").innerHTML = Eui.getDateInput("业务时间", "addform", "businessTime", "date", true);
+
+        }
+        function uploadProcess(id) {
+            if (showQuestion("请先确保账目已经对平?")) {
+                DWR.call("epsEAIService.reUploadDayTrades", id, function (v) {
+                    showInformation("产生交易记录:" + v);
+                });
+            }
+        }
+        function anewUploadProcess(id) {
+            DWR.call("epsEAIService.reUploadDayTrades", id, function (v) {
+                showInformation("产生交易记录:" + v);
+            });
+        }
+
+        //获得日结的开始时间
+        function getBeginTime() {
+            searchForm.businessDate.value = getPara("businessDate")
+            $("beginDateAndTime").value = getPara("beginTime");
+            $("endDateAndTime").value = getPara("endTime")
+
+        }
+
+        //显示、刷新表格
+        function createTable() {
+            var columns = []
+            columns[9] = {title: "操作", width: "15", render: operationFunc, align: "center", order: false};
+            qt = new QueryTable("eps_trade", "searchForm", "listView", columns, {
+                buttons: [
+                    {value: "添加", actions: add}
+                ]
+            });
+        }
+        function add() {
+            switchPage("add")
+        }
+        function operationFunc(v, r) {//处理数据 点id进入明细部分
+            return "<a href=# onclick=modifyPage('" + r[0] + "')>调整</a>&nbsp;<a href=# onclick=modifyCancel('" + r[0] + "')>撤销调整</a>"
+        }
+        function modifyPage(id) {
+            if (id == null)
+                return;
+            tradeId = 0;
+            DWR.call("epsService.getTrade", id, function (apply) {
+                if (apply.status == 4) {
+                    showError("交易:" + apply.id + "不能调整");
+                    return;
+                }
+                apply.accountType = Common.getText("account_type", apply.accountType);
+                apply.status = Common.getText("trade_status", apply.status);
+                apply.tradeType = Common.getText("trade_type", apply.tradeType);
+                apply.amount = Format.fenToYuan(apply.amount);
+                apply.loyaltyAmount = Format.fenToYuan(apply.loyaltyAmount)
+                apply.modifyAmount = Format.fenToYuan(apply.modifyAmount)
+                apply.modifyLoyalty = Format.fenToYuan(apply.modifyLoyalty)
+                Common.setValues("modifyform", apply);
+                $('formTitle').innerHTML = "调整交易:" + apply.id;
+                switchPage("modify");
+                tradeId = apply.id
+            });
+        }
+        function modifyTrade() {
+            DWR.call("tradeService.modifyTrade", tradeId, $("modifyform").amount.value * 100, $("modifyform").loyaltyAmount.value * 100, function (v) {
+                showInformation("交易:" + v.id + "调整成功");
+            });
+        }
+
+        function modifyCancel(id) {
+            if (id == null)
+                return;
+            DWR.call("tradeService.modifyCancel", id, 0, function (v) {
+                showInformation("交易:" + v.id + "恢复成功");
+            });
+        }
+        function delTrade() {
+            if (id == null)
+                return;
+            DWR.call("tradeService.modifyTrade", tradeId, 0, 0, function (v) {
+                showInformation("交易:" + v.id + "删除成功");
+            });
+        }
+
+        function addTrade() {
+            var form = $('addform');
+
+            if (!checkForm('addform'))
+                return;
+
+            DWR.call("tradeService.addTrade",
+                form.cardAsn.value,
+                form.bankCardAsn.value,
+                Format.yuanToFen(form.amount.value),
+                form.type.value,
+                form.loyaltyAmount.value,
+                form.offlineTxNo.value,
+                form.balance.value,
+                form.occurTimeAndTime.value,
+                form.businessTime.value,
+                form.tac.value,
+                form.psamAsn.value,
+                form.psamTraceNo.value,
+                form.consumeType.value,
+                form.eftNo.value,
+                form.loyaltyDate.value,
+                form.bankTrace.value,
+                function (v) {
+                    showInformation("交易:" + v.id + "添加成功");
+                    switchPage('listView')
+                    qt.showTable()
+                });
+        }
+
+        function showData() {
+            if (!checkForm("searchForm"))
+                return;
+            switchPage('listView')
+            createTable();
+            qt.showTable();
+            getBeginTime();
+        }
+        var isQueryEOD = false;
+        function doQuery() {
+            if (!checkForm("searchForm"))
+                return;
+            switchPage("pivotView")
+
+            var param = Common.getValues("searchForm");
+            DWR.call("crosstabService.statData", "eps_EOD_stat", "accountType", "status|sum;count", param, function (obj) {
+                crosstab.setData(obj);
+                crosstab.show('pivottable');
+            });
+            isQueryEOD = true;
+        }
+
+        function confirmEOD() {
+            if (!checkForm("searchForm"))
+                return;
+            if (!isQueryEOD) {
+                showWarning("日结前请先点击【日结统计】按钮，出现日结统计报表后核对日结统计结果与实际销售小票总金额是否一致，确认无误后点击【确 认】按钮进行日结。");
+                return;
+            }
+            if (showQuestion("当前日结信息<br>业务日期：" + searchForm.businessDate.value + "，<br>截止时间：" + searchForm.endDateAndTime.value + "，<br><br>请确认是否进行日结？")) {
+                DWR.call("tradeService.doEODdirectly", searchForm.endDateAndTime.value, searchForm.businessDate.value, function (v) {
+                    showInformation(v);
+                    parent.backValue();
+                });
+            }
+        }
+        function onSave() {
+            confirmEOD();
+        }
+        function gotoUploadPage() {
+            document.location.href = 'eps_upload_status.html?showdata=yes';
+        }
+    </script>
+</head>
+<body onload="load()">
+<!--页面导航-->
+<div class="nav">
+    <div id="nav">&nbsp;</div>
+</div>
+
+<!--查询条件form-->
+<div id="queryView" class="form">
+    <div class="formTitle">日结统计报表：查询条件</div>
+    <form id="searchForm" name="searchForm" action="">
+        <input type="hidden" name="id">
+        <table cellSpacing=0 cellPadding=4 width="100%" border=0>
+            <tr>
+                <td><label>日结开始时间 </label><input type=text name="beginDateAndTime" readonly class="readonly"
+                                                 maxlength=20></td>
+                <td><label>日结结束时间 </label><input type="text" name="endDateAndTime" class="readonly"></td>
+                <td id="buttonTd">&nbsp;</td>
+            </tr>
+            <tr>
+                <td><label>本次业务日期 </label> <input type="text" name="businessDate" class="readonly"></td>
+                <td>&nbsp;</td>
+                <td>
+                    <button type="button" onclick="doQuery()">日结统计</button>
+                </td>
+                <td>
+                    <button type="button" onclick="showData()">查询明细</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<div id="listView" style='display:none;'></div>
+<div id="pivotView" style='display:none;'>
+    <table width="100%" border="0" cellspacing="0" cellpadding="5" style="width:600px">
+        <tr>
+            <td align="center" class="reportTitle" height="24" colspan="2" id="pivotable_head_title">
+                日结统计
+            </td>
+        </tr>
+    </table>
+    <div align="center" id="pivotTable"></div>
+</div>
+<br><br>
+<div id="epsTradeDiv"></div>
+</body>
+</HTML>

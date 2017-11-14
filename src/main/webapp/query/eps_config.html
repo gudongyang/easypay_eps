@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="author" content="wangyuguo">
+    <title>系统参数配置</title>
+    <script type="text/javascript" src="/script/common.js"></script>
+    <script type="text/javascript">
+        //页面控件初始化
+        function load() {
+            Eui.showNavigation();//导航
+            DWR.call("loginService.findSysProperties", function (result) {
+                for (var i = 0; i < result.length; i++) {
+                    var p = result[i];
+                    var obj = $(p.name);
+                    if (obj) {
+                        if (p.name == "loyaltyRate") {
+                            obj.value = Format.fenToYuan(p.value);
+                        }
+                        else if (p.name == "lastBlackDate") {
+                            if (p.value)
+                                obj.value = p.value;
+                        }
+                        else if (p.name == "lastGrayDate") {
+                            if (p.value)
+                                obj.value = p.value;
+                        }
+                        else if (p.name == "oilPrePay") {
+                            obj.value = p.value;
+                        }
+                        else if (p.name == "endOfDayStatus") {
+                            obj.value = p.value;
+                        }
+                        else {
+                            obj.value = p.value;
+                        }
+                    }
+                }
+            })
+        }
+        //保存设置的方法，只保存fuelServer ip、port，RPOS port
+        function saveParam() {
+
+            DWR.call("loginService.setSystemProperty", "fuelServer.ip", $("fuelServer.ip").value, function (result) {
+            });
+            DWR.call("loginService.setSystemProperty", "fuelServer.port", $("fuelServer.port").value, function (result) {
+            });
+            DWR.call("loginService.setSystemProperty", "rpos.port", $("rpos.port").value, function (result) {
+            });
+            showInformation("执行完毕")
+        }
+    </script>
+</head>
+
+<body onload="load()">
+<div class="nav">
+    <div id="nav">&nbsp;</div>
+</div>
+<div id="content">
+    <div class="paramview" id="paramview">
+        <div class="form">
+            <div class="formTitle">系统参数配置</div>
+            <table cellSpacing="0" cellPadding="4" width="100%" border="0" class="label9">
+                <tr>
+                    <td><label>前置服务器IP</label> <input type=text name="pps.ip" readonly class="readonly"></td>
+                    <td><label>前置服务器端口</label> <input type=text name="pps.port" readonly class="readonly"></td>
+                </tr>
+                <tr>
+                    <td><label>自动签到时间</label> <input type=text name="epsLoginTime" readonly class="readonly"></td>
+                    <td><label>交易上传时间</label> <input type=text name="epsUploadTime" readonly class="readonly"></td>
+                </tr>
+                <tr>
+                    <td><label>加油站名称</label> <input type=text name="epsOrgName" readonly class="readonly"></td>
+                    <td><label>加油站编号</label> <input type=text name="epsOrgNo" readonly class="readonly"></td>
+                </tr>
+                <tr>
+                    <td><label>eps序列号</label> <input type=text name="epsId" readonly class="readonly"></td>
+                    <td><label>eai目录</label> <input type=text name="eai.path" readonly class="readonly"></td>
+                </tr>
+                <tr>
+                    <td><label>最后上传交易时间</label> <input type=text name="epsLastRecordTime" readonly class="readonly">
+                    </td>
+                    <td><label>积分兑换比率</label> <input type=text name="loyaltyRate" readonly class="readonly"> 元</td>
+                </tr>
+                <tr>
+                    <td><label>最新黑名单日期</label> <input type=text name="lastBlackDate" readonly class="readonly"></td>
+                    <td><label>最新灰名单日期</label> <input type=text name="lastGrayDate" readonly class="readonly"></td>
+                </tr>
+                <tr>
+                    <td><label>Fuel Server IP</label> <input type=text name="fuelServer.ip"
+                                                             onblur="checkV(this,'ip',true)"></td>
+                    <td><label>Fuel Server Port</label> <input type=text name="fuelServer.port"
+                                                               onblur="checkV(this,'int',true)"></td>
+                </tr>
+                <tr>
+                    <td><label>RPOS Port</label> <input type=text name="rpos.port" onblur="checkV(this,'int',true)">
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <p>
+            <button type="button" onclick="saveParam()">保存</button>
+        </p>
+    </div>
+</div>
+</body>
+</html>

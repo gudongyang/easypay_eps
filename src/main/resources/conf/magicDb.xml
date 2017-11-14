@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="GB2312"?>
+
+<magicDb>
+
+
+    <database
+            name="eps"
+            dialect="org.hibernate.dialect.OracleDialect"
+            driver="oracle.jdbc.driver.OracleDriver"
+            url="jdbc:oracle:thin:@140.206.92.162:1521:orcl"
+            username="eps"
+            password="abc123"
+            defaultDb="true"
+            inited="false">
+    </database>
+
+    <!--
+            <database
+                    name="Oracle"
+                    dialect="org.hibernate.dialect.OracleDialect"
+                    driver="oracle.jdbc.driver.OracleDriver"
+                    url="jdbc:oracle:thin:@10.120.40.57:1521:demo"
+                    username="eps_02"
+                    password="eps_02"
+                    defaultDb="true"
+                    inited="false">
+            </database>
+    -->
+    <!--
+        <database
+                name="SQLServer"
+                dialect="org.hibernate.dialect.SybaseDialect"
+                driver="weblogic.jdbc20.mssqlserver4.Driver"
+                url="jdbc20:weblogic:mssqlserver4:10.120.41.135:1433?db=card_eps;weblogic.codeset=gb2312"
+                username="cardeps"
+                password="cardeps"
+                inited="false">
+        </database>
+    -->
+
+    <!--
+        <database  xsi:type='database'
+            name="hsql"
+            dialect="net.sf.hibernate.dialect.HSQLDialect"
+            driver="org.hsqldb.jdbcDriver"
+            url="jdbc:hsqldb:c:\hdb"
+            username="sa"
+            password=""
+            inited="true" />
+
+
+        <database   xsi:type='database'
+                    name="SQLServer"
+                    dialect="net.sf.hibernate.dialect.SybaseDialect"
+                    driver="weblogic.jdbc20.mssqlserver4.Driver"
+                    url="jdbc20:weblogic:mssqlserver4:192.168.0.222:1433?db=onecard;weblogic.codeset=gb2312"
+                    username="sa"
+                    password="brs123"
+                    inited="true">
+        </database>
+    -->
+
+</magicDb>

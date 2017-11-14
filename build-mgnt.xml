@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="EasyPay 项目 eps 管理过程" default="更新eclipse环境" basedir=".">
+
+    <property name="artifactId" value="petrocard-eps"/>
+    <property name="version" value="0.3.10"/>
+    <property name="ftpId" value="devftp"/>
+    <property name="ftpUrl" value="ftp://10.120.2.159"/>
+
+    <target name="war1:compile">
+        <delete dir="target/classes"/>
+        <exec dir="." executable="cmd.exe">
+            <arg line="/c mvn compile -Dfile.encoding=UTF8"/>
+        </exec>
+    </target>
+    <target name="打包war文件" depends="war1:compile">
+        <delete file="target/${artifactId}-${version}.war"/>
+        <jar destfile="target/${artifactId}-${version}.war">
+            <fileset dir="${build}/../src/main/webapp"
+                     excludes="WEB-INF/classes/**/*,workspace/**/*"
+            />
+            <zipfileset dir="target/classes" prefix="WEB-INF/classes"/>
+        </jar>
+    </target>
+    <target name="jar:package" depends="war1:compile">
+        <delete file="target/${artifactId}-${version}.jar"/>
+        <jar destfile="target/${artifactId}-${version}.jar"
+             basedir="target/classes"
+             includes="com/**/*.*,**/*.class,magic.sign"
+        />
+    </target>
+    <target name="更新eclipse环境">
+        <exec dir="." executable="cmd.exe">
+            <arg line="/c mvn eclipse:eclipse"/>
+        </exec>
+        <delete dir="src/main/webapp/WEB-INF/lib"/>
+        <exec dir="." executable="cmd.exe">
+            <arg line="/c mvn dependency:copy-dependencies"/>
+        </exec>
+    </target>
+
+    <target name="产生api文件">
+        <exec dir="." executable="cmd.exe">
+            <arg line="/c mvn groovy:groovydoc"/>
+        </exec>
+    </target>
+
+    <target name="startJetty">
+        <exec dir="." executable="cmd.exe">
+            <arg line="/c mvn gd:plugin:startJetty"/>
+        </exec>
+    </target>
+    <target name="dropAndInitDb">
+        <exec dir="." executable="cmd.exe">
+            <arg line="/c mvn gd:plugin:devDropAndInitDB -DinitFile=init/test/init.xml"/>
+        </exec>
+    </target>
+    <target name="genSchema">
+        <exec dir="." executable="cmd.exe">
+            <arg line="/c mvn gd:plugin:genSchema "/>
+        </exec>
+    </target>
+    <target name="本地发布jar" depends="jar:package">
+        <exec dir="." executable="cmd.exe">
+            <arg line="/c mvn install:install-file -DpomFile=pom.xml -Dpackaging=jar -Dfile=target/petrocard-appserver-${version}.jar"/>
+        </exec>
+    </target>
+
+    <target name="远程发布jar" depends="本地发布jar">
+        <exec dir="." executable="cmd.exe">
+            <arg line="/c mvn deploy:deploy-file -DpomFile=pom.xml -Dfile=target/petrocard-appserver-${version}.jar -Dpackaging=jar -DrepositoryId=${ftpId} -Durl=${ftpUrl}"/>
+        </exec>
+    </target>
+</project>

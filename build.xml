@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="EasyPay 项目 eps 构建过程" default="更新eclipse环境" basedir=".">
+
+    <target name="更新eclipse环境">
+        <exec dir="." executable="cmd.exe">
+            <arg line="/c mvn eclipse:eclipse"/>
+        </exec>
+        <delete dir="src/main/webapp/WEB-INF/lib"/>
+        <exec dir="." executable="cmd.exe">
+            <arg line="/c mvn dependency:copy-dependencies"/>
+        </exec>
+    </target>
+
+    <target name="产生api文件">
+        <exec dir="." executable="cmd.exe">
+            <arg line="/c mvn groovy:groovydoc"/>
+        </exec>
+    </target>
+
+
+    <target name="startJetty">
+        <exec dir="." executable="cmd.exe">
+            <arg line="/c mvn gd:plugin:startJetty"/>
+        </exec>
+    </target>
+    <target name="dropAndInitDb">
+        <exec dir="." executable="cmd.exe">
+            <arg line="/c mvn gd:plugin:devDropAndInitDB -DinitFile=init/test/init.xml"/>
+        </exec>
+    </target>
+    <target name="initDbData">
+        <exec dir="." executable="cmd.exe">
+            <arg line="/c mvn gd:plugin:devInitData -DinitFile=init/test/init.xml"/>
+        </exec>
+    </target>
+    <target name="genSchema">
+        <exec dir="." executable="cmd.exe">
+            <arg line="/c mvn gd:plugin:genSchema "/>
+        </exec>
+    </target>
+</project>

@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<HEAD>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <TITLE>输入卡密码</TITLE>
+    <script type="text/javascript" language="JavaScript" src="/script/common.js"></script>
+    <script type="text/javascript" language="JavaScript">
+        function onSave() {
+            if (checkForm("pinForm"))
+                dialogBackValue($("cardpin").value);
+        }
+        function load() {
+            $("pinForm").cardpin.value = "123456";
+        }
+    </script>
+</HEAD>
+<BODY class="body" onload="load()">
+<div class="form">
+    <form id="pinForm">
+        <div class="formTitle">
+            请输入密码
+        </div>
+        <table width="100%" cellspacing=0 cellpadding=4>
+            <tr>
+                <td>
+                    <label>密&nbsp;&nbsp;&nbsp;&nbsp;码</label> <input type="password" id="cardpin" size=10 maxlength=6
+                                                                     onblur="checkV(this,'cardPin',true)">
+                    (默认为123456)
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+</BODY>
+</HTML>

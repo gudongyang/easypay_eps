@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF8"?>
+
+<groovy>
+
+    <service class="com.gd.domain.party.LoginService"/>
+    <service class="com.gd.domain.dict.DictService"/>
+    <service class="com.gd.domain.mobile.MobileService"/>
+    <service class="com.gd.domain.mobile.ENettService"/>
+    <service class="com.gd.domain.gw.GatewayService"/>
+    <entity class="com.gd.domain.module.Module"/>
+    <entity class="com.gd.domain.dict.CommonDict"/>
+    <entity class="com.gd.domain.party.Organization"/>
+    <entity class="com.gd.domain.tx.Account"/>
+
+
+</groovy>

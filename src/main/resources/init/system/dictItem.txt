@@ -1,0 +1,48 @@
+<header columns="4">
+def e = ejbService.create('CommonDict')
+e.id = Long.parseLong(r[1])
+e.text=r[2]
+e.iconUrl=r[3]
+dictService.saveCommonDict(r[0],e)
+</header>
+
+
+//字典类型,			code,		text,		iconUrl
+account_type,			1,		IC资金
+account_type,			2,		IC积分
+account_type,			3,		银行卡
+account_type,			4,		中油牡丹卡
+account_type,			10,		现金积分
+
+trade_status,			1, 		灰锁
+trade_status,			2, 		正常
+trade_status,			3, 		灰交易
+trade_status,			4, 		手工补帐
+trade_status,			5,		退货
+trade_status,			6,		预检查
+trade_status,			7, 		销售完成
+trade_status,			8, 		等待支付
+trade_status,			9, 		支付完成
+trade_status,			10,		可以灰锁
+trade_status,			11,		已经解灰
+trade_status,			12,		累计积分
+trade_status,			21,		授权拒绝
+trade_status,			22,		授权撤销
+trade_status,			23,		挂起
+
+trade_type,				10,		IC卡消费
+trade_type,				11,		银行卡消费
+trade_type,				12,		现金积分
+trade_type,				13,		中油牡丹卡消费
+trade_type,				14,		部分撤销交易
+trade_type,				15,		解灰交易
+trade_type,				17,		银行卡退货
+trade_type,				18,		IC卡退货
+trade_type,				30,		IC积分消费
+
+adjust_type,			1,		调整
+adjust_type,			2,		补录
+
+reconciliation_status,	1,		对帐
+reconciliation_status,	2,		日结完毕
+reconciliation_status,	3,		上传完毕

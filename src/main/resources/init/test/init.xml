@@ -1,0 +1,7 @@
+<magicInit>
+    <initData text="KEY" file="../system/persistKey.txt"/>
+    <initData text="字典" file="../system/dictItem.txt"/>
+    <initData text="任务" file="../system/persistTask.txt"/>
+    <initData text="模块" file="../system/module.txt"/>
+    <initData text="属性" file="../system/property.txt"/>
+</magicInit>

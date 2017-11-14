@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>卡软件系统</title>
+    <script type="text/javascript" language="javascript" src="script/common.js"></script>
+    <script type="text/javascript" language="javascript">
+        var login = DWR.syncCall("loginService.getCurrentLogin");
+        if (!login) {
+            try {
+                login = DWR.syncCall('loginService.sslLogin');
+            } catch (e) {
+                showError(e.description);
+                window.close();
+            }
+        }
+    </script>
+</head>
+
+<frameset id="frameset1" rows="100,*" frameborder="no" border="0" framespacing="0" longdesc="" tabindex="-1">
+    <frame name="topFrame" id="topFrame" src="common/top.html" frameborder="no" scrolling="no" noresize marginwidth="0"
+           marginheight="0" tabindex="-1"/>
+    <frameset id="frameset2" cols="220,*" frameborder="yes" border="5" framespacing="5" borderColor="#DE3A41"
+              tabindex="-1">
+        <frame name="leftFrame" id="leftFrame" src="common/blank.html" frameborder="yes" border="0" marginwidth="0"
+               marginheight="0" scrolling="auto" style="border:0px solid #FFF"
+               onload="this.parentNode.borderColor=frameColor" tabindex="-1"/>
+        <frameset id="frameset3" rows="*,0,0" frameborder="no" framespacing="0" tabindex="-1">
+            <frame name="loadingFrame" id="loadingFrame" src="common/loading.html" frameborder="no" marginwidth="0"
+                   marginheight="0" scrolling="auto" tabindex="-1"/>
+            <frame name="mainFrame" id="mainFrame" onload="Loading.hideFrameLoading()" src="common/blank.html"
+                   frameborder="no" marginwidth="0" marginheight="0" scrolling="auto"/>
+            <frame name="printFrame" id="printFrame" src="common/print_frame.html" frameborder="no" marginwidth="0"
+                   marginheight="0" scrolling="no"/>
+        </frameset>
+    </frameset>
+</frameset>
+<noframes>
+    <body>
+    </body>
+</noframes>
+</html>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<magicSql>
+
+    <dimension name="day_yqmd" entity="Time" primaryKey="time">
+        <level title="年份" field="year" value="v+'年'"/>
+        <level title="季度" field="quarter" value="v+'季度'"/>
+        <level title="月份" field="month" value="v+'月'"/>
+        <level title="日期" field="DAYOFMONTH"/>
+    </dimension>
+
+    ----------<!-- 交易统计 -->------------------------------
+    <sql name="eps_trade_stat"
+         title="交易统计"
+         stmt="from EpsTrade as o where o.amount!=0 and o.status!=22 and o.status!=21 and o.status!=5 and not (o.errorType=1 and o.amount=o.modifyAmount)">
+
+        <option name="accountType" cond="o.accountType=?" type="Integer"/>
+        <option name="status" cond="o.status=?" type="Integer"/>
+        <option name="eftNo" cond="o.eftNo=?" type="Long"/>
+        <option name="beginDate" cond="o.occurTime >= ?" type="Date"/>
+        <option name="endDate" cond="o.occurTime &lt;= ?" type="EndDate"/>
+        <option name="businessDate" cond="o.businessDate=?" type="Date"/>
+
+        <dimension name="time" field="o.occurTime" title="" dimensionUsage="day_yqmd"/>
+        <dimension name="accountType" field="o.accountType" title="帐号类型" dict="account_type"/>
+        <dimension name="status" field="o.status" title="交易状态" dict="trade_status"/>
+        <dimension name="eftNo" field="o.eftNo" title="终端编号" value="v+''"/>
+
+        <measure name="sum"
+                 field="sum(case when o.errorType!=2 then ((o.amount-o.modifyAmount)/100.0) else (o.amount/100.0) end)"
+                 calculation="Sum" title="交易额" format="#0.00"/>
+        <measure name="count" field="count(o.id)" calculation="Count" title="交易数"/>
+    </sql>
+
+    ----------<!-- 日结时的交易统计，只统计正常交易和灰交易-->------------------------------
+    <sql name="eps_EOD_stat"
+         title="交易统计"
+         stmt="from EpsTrade as o where o.amount!=0 and not (o.status!=2 and o.status!=3) and not (o.errorType=1 and o.amount=o.modifyAmount)">
+
+        <option name="accountType" cond="o.accountType=?" type="Integer"/>
+        <option name="status" cond="o.status=?" type="Integer"/>
+        <option name="eftNo" cond="o.eftNo=?" type="Long"/>
+        <option name="beginDateAndTime" cond="o.rposTime >= ?" type="Date"/>
+        <option name="endDateAndTime" cond="o.rposTime &lt;= ?" type="Date"/>
+
+        <dimension name="time" field="o.occurTime" title="" dimensionUsage="day_yqmd"/>
+        <dimension name="accountType" field="o.accountType" title="帐号类型" dict="account_type"/>
+        <dimension name="status" field="o.status" title="交易状态" dict="trade_status"/>
+
+        <measure name="sum"
+                 field="sum(case when o.errorType!=2 then ((o.amount-o.modifyAmount)/100.0) else (o.amount/100.0) end)"
+                 calculation="Sum" title="交易额" format="#0.00"/>
+        <measure name="count" field="count(o.id)" calculation="Count" title="交易数"/>
+    </sql>
+
+    ----<!--按照商品类别统计的报表-->-------------------------------------------------
+    <sql name="eps_category_stat"
+         title="交易统计"
+         method="tradeService_summaryCategoryReport">
+
+        <param value="beginDateAndTime"/>
+        <param value="endDateAndTime"/>
+        <param value="accountType"/>
+        <param value="status"/>
+        <param value="businessDate"/>
+
+        <dimension name="accountType" field="o.accountType" title="帐号类型" dict="account_type"/>
+        <dimension name="status" field="o.status" title="交易状态" dict="trade_status"/>
+        <dimension name="goodsCategory" field="o.catName" title="商品种类"/>
+
+        <measure name="totalAmount" field="sum(o.id)" calculation="Sum" title="交易额" value="v/100" format="#0.00"/>
+        <measure name="totalCount" field="count(o.id)" calculation="Count" title="交易数"/>
+    </sql>
+
+</magicSql>

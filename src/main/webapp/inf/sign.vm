@@ -1,0 +1,76 @@
+#set( $layout ="main.vm" )
+
+<div class="media-body" style="display: block;">
+    <h3>数字签名</h3>
+
+
+    <p>
+        在请求参数列表中，除去sign、sign_type两个参数外，其他需要使用到的参数皆是要签名的参数。（个别接口中参数sign_type也需要参与签名。）
+        在通知返回参数列表中，除去sign、sign_type两个参数外，凡是通知返回回来的参数皆是要签名的参数。
+    </p>
+
+    <h5>生成待签名的字符串</h5>
+    <h5>对于如下的参数数组：</h5>
+
+    <pre>
+        string[] parameters={
+        "sign_type=MD5",
+        "notify_url=http://www.baidu.com",
+        "input_charset=UTF-8",
+        "order_id=20170718000003",
+        "version=N2",
+        "sign=1153023c272add92f7d8ebcceabf03b5",
+        "amount=100",
+        "business_time=2017-07-17 12:59:36",
+        "order_desc=IPHONE",
+        "pay_type=wx",
+        "service=push",
+        "partner=111222333444555",
+        "merchant_id=99911010019"};
+    </pre>
+
+    <p>对数组里的每一个值从a到z的顺序排序，若遇到相同首字母，则看第二个字母，以此类推。
+        排序完成之后，再把所有数组值以“&”字符连接起来，如：</p>
+    <pre>amount=100&amp;business_time=2017-07-17 12:59:36&amp;input_charset=UTF-8&amp;merchant_id=99911010019&amp;notify_url=http://www.baidu.com&amp;order_desc=IPHONE&amp;order_id=20170718000003&amp;partner=111222333444555&amp;pay_type=wx&amp;service=push&amp;version=N2</pre>
+
+
+
+    <hr>
+    Note:
+
+
+    <ul>
+        <li><span>没有值的参数无需传递，也无需包含到待签名数据中；</span></li>
+        <li><span>签名时将字符转化成字节流时指定的字符集与input_charset保持一致；</span></li>
+        <li><span>如果传递了input_charset参数，这个参数也应该包含在待签名数据中；</span></li>
+        <li><p>根据HTTP协议要求，传递参数的值中如果存在特殊字符（如：&、@等），那么该值需要做URL
+            Encoding，这样请求接收方才能接收到正确的参数值。这种情况下，待签名数据应该是原生值而不是encoding之后的值。
+            例如：调用某接口需要对请求参数email进行数字签名，那么待签名数据应该是email=test@msn.com，而不是email=test%40msn.com。</p>
+        </li>
+    </ul>
+    <hr>
+
+    <br>
+
+    <h5>签名</h5>
+
+    <p>
+        在MD5签名时，需要易生支付安全校验码（Key）参与签名。安全校验码（Key）是以英文字母和数字组成的32位字符串。
+        商户可登录到商户服务中心。
+    </p>
+
+
+    <p>
+        当拿到请求时的待签名字符串后，需要把安全校验码（Key）直接拼接到待签名字符串后面，形成新的字符串，利用MD5的
+        签名函数对这个新的字符串进行签名运算，从而得到32位签名结果字符串（该字符串赋值于参数sign）。
+    </p>
+
+
+    <p>
+        当获得到通知返回时的待签名字符串后，同理，需要把安全校验码（Key）直接拼接到待签名字符串后面，形成新的字符串，
+        利用MD5的签名函数对这个新的字符串进行签名运算，从而得到32位签名结果字符串。此时这个新的字符串需要与支付宝通
+        知返回参数中的参数sign的值进行验证是否相等，来判断签名是否验证通过。
+    </p>
+
+
+</div>

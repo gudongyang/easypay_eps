@@ -1,0 +1,908 @@
+/***默认***/
+HTML, BODY {
+    padding: 0px;
+    margin: 0px;
+    font: 12px SimSun, Tahoma;
+    background-color: #ffffff;
+    height: 100%;
+    text-align: center;
+}
+
+TABLE {
+    color: #333333;
+    empty-cells: show;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+TABLE TH {
+    text-align: center;
+}
+
+TD {
+    word-wrap: break-word;
+    word-break: break-all;
+}
+
+IMG {
+    border: 0px;
+}
+
+FORM {
+    padding: 0px;
+    margin: 0px;
+}
+
+INPUT {
+    font: 11px Tahoma, SimSun;
+}
+
+BUTTON {
+    font: 12px Tahoma, SimSun;
+    height: 22px;
+    padding-top: 1px;
+    line-height: 12px;
+    padding-bottom: 0px;
+    padding-left: 2px;
+    padding-right: 1px;
+    margin-left: 3px;
+}
+
+.file {
+    font: 12px Tahoma, SimSun;
+}
+
+SELECT {
+    font-size: 12px;
+}
+
+LABEL {
+    display: inline-block;
+    margin-right: -3px;
+}
+
+TEXTAREA {
+    font-size: 12px;
+}
+
+A {
+    font-size: 12px;
+    color: #2D4290;
+    text-decoration: none
+}
+
+A:hover {
+    font-size: 12px;
+    text-decoration: underline
+}
+
+P {
+    height: 26px;
+    text-align: center;
+    margin: 5px 0px;
+    padding: 0px;
+}
+
+/***字体/链接***/
+.wlink A {
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+.wlink A:hover {
+    text-decoration: underline
+}
+
+.white {
+    color: #FFFFFF;
+}
+
+.red {
+    color: #ff0000;
+}
+
+.des {
+    padding-left: 5px;
+    color: #FF0000;
+}
+
+.gray {
+    color: #999;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.photoArea {
+    margin-top: 5px;
+    border: 1px solid #d0d0d0;
+    background-color: #FFFFFF;
+    width: 122px;
+    height: 150px;
+}
+
+.loadLayerOut {
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    z-index: 2;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.loadLayerIn {
+    width: 200px;
+    height: 30px;
+    padding: 10px;
+    line-height: 30px;
+    background-color: #FFF;
+    color: #666;
+    font-weight: bold;
+    border: 2px solid #AAA;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/***按钮***/
+.treeBtn A {
+    display: inline-block;
+    padding-left: 5px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-right: 7px;
+    background-color: transparent;
+    color: #0033CC;
+    text-decoration: none;
+}
+
+.treeBtn A:hover {
+    padding-left: 4px;
+    padding-right: 6px;
+    display: inline-block;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    border: 1px solid #A1C6EB;
+    background-color: #E3EBF2;
+    color: #0033CC;
+    text-decoration: none;
+}
+
+.btn {
+    text-align: center;
+    padding: 10px;
+}
+
+#toolbar {
+    text-align: center;
+}
+
+/***树框架样式***/
+.scrollDiv {
+    height: 100%;
+    overflow: scroll;
+    padding: 0px;
+}
+
+.scrollyDiv {
+    height: 100%;
+    padding: 0px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.treeFrame {
+    height: 100%;
+}
+
+.treeBar {
+    padding-left: 15px;
+    height: 28px;
+    background-image: url(../images/tree/tree_bar.gif);
+    font-weight: bold;
+}
+
+.treeBody {
+    height: 90%;
+}
+
+.treeTabc {
+    font-weight: bold;
+    display: inline-block;
+    border-left: 1px solid #CCC;
+    border-right: 1px solid #CCC;
+    margin-top: 4px;
+    padding-top: 6px;
+    height: 18px;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-right: 4px;
+    background-image: url(../images/tree/tree_tabc.gif);
+}
+
+.treeTab {
+    font-weight: bold;
+    display: inline-block;
+    border-left: 1px solid #CCC;
+    border-right: 1px solid #CCC;
+    margin-top: 4px;
+    padding-top: 6px;
+    height: 18px;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-right: 4px;
+    background-image: url(../images/tree/tree_tab.gif);
+}
+
+.treeTab:hover {
+    background-image: url(../images/tree/tree_tab.gif);
+}
+
+.treecontainer {
+    margin: 0px;
+    padding: 0px;
+    font: icon;
+    white-space: nowrap;
+}
+
+.treeitem {
+    padding: 0px;
+    margin: 0px;
+    font: icon;
+    color: WindowText;
+    white-space: nowrap;
+    height: 16px;
+}
+
+.treeitem a, .treeitem a:active, .treeitem a:hover {
+    margin-left: 3px;
+    padding: 0px 2px 1px 2px;
+}
+
+.treeitem a {
+    color: black;
+    text-decoration: none;
+}
+
+.treeitem a:hover {
+    color: blue;
+    text-decoration: underline;
+}
+
+.treeitem a:active {
+    background: highlight;
+    color: highlighttext;
+    text-decoration: none;
+}
+
+.treeitem a.selected-inactive {
+    color: #FFFFFF;
+    background: #666666;
+}
+
+.treeitem a.selected-inactive:hover {
+    color: #FFFFFF;
+    background: #666666;
+}
+
+.treeitem img {
+    vertical-align: middle;
+    border: 0px;
+}
+
+.treeicon {
+    width: 16px;
+    height: 16px;
+}
+
+.tabcolor {
+    background: #EEEEEE;
+    width: 100%;
+    margin: 0px;
+}
+
+/*form*/
+.searchForm {
+    border-bottom: 1px solid #8DB0DB;
+    background-color: #F9FFF4;
+    padding-top: 4px;
+    margin: 0px;
+    text-align: left;
+}
+
+.searchForm select {
+    width: 122px;
+}
+
+.editForm select {
+    width: 122px;
+}
+
+.formTitle {
+    padding-left: 5px;
+    padding-top: 5px;
+    background-color: #F2F2F2;
+    text-align: left;
+    color: #000;
+    font-weight: bold;
+    border-bottom: 1px solid #8DB0DB;
+    height: 18px;
+}
+
+.tableTitle {
+    background-color: #F9FFF4;
+    border-bottom: 1px solid #8DB0DB;
+    font-weight: bold;
+}
+
+.reportBar {
+    padding-left: 1px;
+    padding-top: 1px;
+    height: 25px;
+    border-bottom: 1px solid #8DB0DB;
+    background-color: #F2F2F2;
+    font-weight: bold;
+}
+
+.l {
+    display: inline;
+    width: 30%;
+    float: left;
+    margin: 0px;
+}
+
+.r {
+    display: inline;
+    text-align: right;
+    width: 68%;
+    float: right;
+    margin-top: -4px;
+    margin-right: 1px;
+    padding-right: 5px;
+}
+
+.r BUTTON {
+    margin-top: 0px;
+}
+
+.r A {
+    line-height: 22px;
+}
+
+DIV.form {
+    border: 1px solid #8DB0DB;
+    margin-top: 10px;
+    background-color: #F9FFF4;
+    width: 97%;
+    text-align: left;
+    margin-left: 0px;
+}
+
+DIV.form SELECT {
+    width: 122px;
+}
+
+.label4 LABEL {
+    width: 48px;
+}
+
+.label5 LABEL {
+    width: 60px;
+}
+
+.label6 LABEL {
+    width: 72px;
+}
+
+.label7 LABEL {
+    width: 84px;
+}
+
+.label8 LABEL {
+    width: 96px;
+}
+
+.label9 LABEL {
+    width: 108px;
+}
+
+.label10 LABEL {
+    width: 120px;
+}
+
+.longText {
+    width: 150px;
+}
+
+.noBg {
+    background-color: #F7FFFF;
+}
+
+TABLE.viewTable {
+    margin-bottom: -1px;
+}
+
+TABLE.viewTable TR {
+    background: url(../images/table/line.gif) left bottom repeat-x;
+    border-right: 1px groove #CCC;
+    background-color: #F7FFFF;
+}
+
+TABLE.viewTable SPAN {
+    color: #A31515;
+}
+
+TABLE.viewTable LABEL {
+    background: url(../images/basic/cln.gif) right no-repeat;
+    padding-right: 8px;
+}
+
+TABLE.col1 TD {
+    width: 100%;
+}
+
+TABLE.col2 TD {
+    width: 50%;
+}
+
+TABLE.col3 TD {
+    width: 33%;
+}
+
+TABLE.col4 TD {
+    width: 25%;
+}
+
+/***报表***/
+.reportTitle {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+TABLE.plist {
+    font-size: 12px;
+    background-color: #FFFFFF;
+    border-top: #333333 2px solid;
+    border-left: #333333 2px solid;
+    border-bottom: #333333 2px solid;
+    border-right: #333333 2px solid;
+    border-collapse: collapse;
+}
+
+TABLE.plist TH {
+    border-bottom: #333333 1px solid;
+    border-right: #333333 1px solid;
+    height: 20px;
+    word-wrap: break-word;
+    background-color: #EFEFEF;
+}
+
+TABLE.plist TD {
+    border-bottom: #333333 1px solid;
+    border-right: #333333 1px solid;
+    height: 20px;
+    word-wrap: break-word;
+}
+
+TABLE.plist .rowSubTotal {
+    background: #E0FFFF;
+}
+
+TABLE.plist .rowTotal {
+    background: #60FFFF;
+}
+
+TABLE.plist .colSubTotal {
+    background: #FFFFC0;
+}
+
+TABLE.plist .colTotal {
+    background: #FFFF60;
+}
+
+TABLE.plist .subTotalSubTotal {
+    background: #E0FFC0;
+}
+
+TABLE.plist .subTotalTotal {
+    background: #E0FF60;
+}
+
+TABLE.plist .totalSubTotal {
+    background: #60FFC0;
+}
+
+TABLE.plist .totalTotal {
+    background: #60FF60;
+}
+
+/***其他***/
+.body {
+    overflow: auto;
+}
+
+.noScroll {
+    overflow: hidden;
+}
+
+.m10 {
+    margin: 10px;
+}
+
+.mt5 {
+    margin-top: 5px;
+}
+
+.pad5 {
+    padding: 5px;
+}
+
+.pad_top1 {
+    padding-top: 1px;
+}
+
+.left {
+    text-align: left;
+}
+
+.loading {
+    text-align: center;
+}
+
+.treeDiv {
+    padding: 5px;
+    text-align: left;
+}
+
+.divTable {
+    TABLE-LAYOUT: fixed
+}
+
+.divTable DIV {
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    height: 18px;
+}
+
+.nav {
+    background-color: #F7F7F7;
+    height: 30px;
+    background: url(../images/basic/nav.gif);
+    padding: 0px;
+    margin: 0px;
+    background-position: 0px 0px;
+    width: 100%;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.nav DIV {
+    height: 30px;
+    display: inline;
+    margin: 0px;
+    padding-right: 10px;
+}
+
+.dot {
+    background: url(../images/basic/dot.gif);
+    line-height: 30px;
+    background-repeat: no-repeat;
+    background-position: 11px 4px;
+}
+
+/*** 以下是 check的样式 ***/
+.inputRequired {
+    color: #ff3300;
+}
+
+.inputBox {
+    vertical-align: top;
+    padding: 5px
+}
+
+.inputInfoBox {
+    vertical-align: top;
+    padding: 5px
+}
+
+.inputInfo, .inputError, .inputNotice, .inputSuccess {
+    margin: 0px 0px 0px 0px;
+    border: 1px solid #fff;
+    padding: 2px 0px 0px 20px;
+    width: 200px;
+}
+
+.inputError {
+    background: url(../images/icon/error_s.gif) 2px 2px no-repeat #fff2e9;
+    color: #8a1f11;
+    border-color: #f60;
+}
+
+.inputNotice {
+    background: url(../images/icon/notice_s.gif) 2px 2px no-repeat #e2f5ff;
+    color: #514721;
+    border-color: #00a8ff;
+}
+
+.inputSuccess {
+    background: url(../images/icon/success_s.gif) 2px 2px no-repeat #e6ffe6;
+    color: #264409;
+    border-color: #00be00;
+}
+
+.inlineError {
+    border: 1px solid #ff0000;
+    margin: 0px;
+    padding: 1px 2px 1px 2px;
+}
+
+/* 根据input的样式，会调整height 保证border + padding + height 和原来相等*/
+.inlineTextError {
+    border: 1px solid #ff0000;
+    margin: 0px;
+    padding: 2px 0px 0px 1px;
+    height: 15px;
+}
+
+.errorSpan {
+    position: absolute;
+    color: #ff0000;
+    z-index: 3;
+}
+
+.errorSpan IMG {
+    border: 0px
+}
+
+/*** check的样式结束 ***/
+
+.readonly {
+    height: 15px;
+    background: #FFFCCC;
+    padding: 1px 2px 1px 2px;
+    border: 1px solid #7F9DB9;
+}
+
+.disabled {
+    background: #FFFCCC;
+    padding: 1px 2px 1px 2px;
+    border: 1px solid #7F9DB9;
+}
+
+.templateAmount {
+    height: 15px;
+    width: 120px;
+    padding: 1px 2px 1px 2px;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: #7F9DB9;
+    border-left-style: none;
+    border-right-style: none;
+    border-top-style: none;
+
+}
+
+.depttree {
+    float: left;
+    width: 30%;
+    height: 460px;
+}
+
+.deptdetail {
+    float: left;
+    width: 60%;
+    height: 460px;
+}
+
+.orga {
+    background-image: url(../images/basic/button_import.gif);
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 18px;
+    height: 18px;
+    font-size: 18px;
+}
+
+a.orga {
+    font-size: 18px;
+    text-decoration: none
+}
+
+a.orga:hover {
+    font-size: 18px;
+    text-decoration: none
+}
+
+.date {
+    background-image: url(../images/icon/date.gif);
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 18px;
+    height: 18px;
+    font-size: 18px;
+}
+
+a.date {
+    font-size: 18px;
+    text-decoration: none
+}
+
+a.date:hover {
+    font-size: 18px;
+    text-decoration: none
+}
+
+.test {
+    margin: 10px;
+    border: 1px solid #CCC;
+    color: #AAA;
+    padding: 10px;
+    background-color: #EFEFEF;
+    display: none;
+}
+
+.problem {
+    margin: 10px;
+    border: 1px solid red;
+    padding: 10px;
+    background-color: #EFEFEF;
+}
+
+#loadingFrame {
+    border-top: 1px solid #808080;
+    border-left: 1px solid #808080;
+}
+
+#mainFrame {
+    border-top: 1px solid #808080;
+    border-left: 1px solid #808080;
+}
+
+.dialogBg {
+    background-color: #F7F6F4;
+}
+
+.dialogFrameBg {
+    background-color: #ECE9D8;
+}
+
+.listBorder {
+    margin: 0px;
+    width: 98%;
+}
+
+.form100 {
+    border: 1px solid #8DB0DB;
+    margin-top: 10px;
+    background-color: #F9FFF4;
+    width: 100%;
+    text-align: left;
+    margin-left: 0px;
+}
+
+.width100 {
+    width: 100%;
+}
+
+.width97 {
+    width: 97%;
+}
+
+.w97border {
+    width: 97%;
+    border: 1px solid #8DB0DB;
+}
+
+.lt10 {
+    color: #0259A8;
+    font-size: 14px;
+    font-weight: bold;
+    padding-top: 10px;
+    text-align: left;
+    width: auto;
+}
+
+.lt6 {
+    float: left;
+    text-align: left;
+    width: 150px;
+}
+
+.lt5 {
+    border: 1px solid #D1D1D1;
+    font-size: 12px;
+    height: 176px;
+    line-height: 25px;
+    padding-left: 5px;
+    width: 144px !important;
+}
+
+.lt12 {
+    border: 1px solid #D1D1D1;
+    font-size: 12px;
+    height: 176px;
+    line-height: 25px;
+    padding-left: 5px;
+    width: 124px !important;
+}
+
+/**rule css*/
+
+.ruleTimeLabelDiv {
+    height: 16px
+}
+
+.ruleTimeLabel {
+    position: absolute;
+}
+
+.ruleOrgDiv {
+    width: 30px;
+    height: 16px;
+    float: left;
+    padding-top: 1px
+}
+
+.ruleTimeSpanDiv {
+    float: left;
+    height: 16px;
+    width: 700px;
+    border: 1px solid #000;
+    background-color: #D1D1D1;
+    margin-top: -1px
+}
+
+.ruleTimeSpan {
+    position: absolute;
+    border-left: 1px solid #000;
+    border-right: 1px solid #000;
+    background-color: #60FF60;
+    height: 16px;
+    text-decoration: none
+}
+
+.ruleTimeSpan:hover {
+    background-color: #D41A00;
+    text-decoration: none
+}
+
+.ruleTimeActiveSpan {
+    position: absolute;
+    border-left: 1px solid #000;
+    border-right: 1px solid #000;
+    background-color: #D41A00;
+    height: 16px;
+    text-decoration: none
+}
+
+.ruleTimeActiveSpan:hover {
+    background-color: #D41A00;
+    text-decoration: none
+}
+
+TABLE.ruleTable {
+    background-color: #FFF;
+}
+
+TABLE.ruleTable TH {
+    background-color: #F2F2F2;
+    text-align: left;
+}
+
+TABLE.ruleTable TR {
+    border-right: 1px groove #CCC;
+    background: url(../images/table/line.gif) left bottom repeat-x;
+    background-color: #FFF;
+    height: 22px
+}
+
+TABLE.ruleTable SPAN {
+    padding-left: 5px;
+}
+
+TABLE.ruleTable LABEL {
+    background: url(../images/basic/cln.gif) right no-repeat;
+    padding-right: 8px;
+}

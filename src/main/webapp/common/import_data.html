@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<HEAD>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <TITLE>批量导入数据</TITLE>
+    <script type="text/javascript" language="JavaScript" src="../script/common.js"></script>
+    <script type="text/javascript" language="JavaScript" src="../script/importdata.js"></script>
+    <script type="text/javascript" language="JavaScript">
+        var importData;
+        function load() {
+            headFile = getPara("headFile");
+            importData = new ImportData(headFile)
+            importData.getImportColumns();
+        }
+        function onSave() {
+            importData.onSave();
+        }
+
+    </script>
+</HEAD>
+<BODY class="body" onload='load()'>
+<!--查询form-->
+<div class="searchForm">
+    <form id="dataForm" name="dataForm" method="POST" enctype="multipart/form-data">
+        <table cellSpacing="0" cellPadding="4" width="100%" border="0">
+            <tr>
+                <td>
+                    <label>请选择文件</label>
+                    <input type="file" name="dataFile" size="100"><span class="des">*</span>
+                </td>
+                <td>
+                    <button type="button" onclick="importData.importData()">确认上传</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+<div style="margin:10px;width:90%;text-align:left">
+    可用字段：
+    <div id="allColumns" style="width:100%;padding:3px;margin:10px;height:24px;border:1px solid blue"></div>
+    数据预览：
+    <div id="dataPreview" style="width:100%;padding:3px;margin:10px;height:60px;border:1px solid #000"></div>
+</div>
+<div id="titleLayer" style="display:none;"></div>
+</BODY>
+</HTML>

@@ -1,0 +1,145 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <script language="javascript" src="../script/common.js"></script>
+    <script language="javascript">
+        var pageType = 'dialog';
+        function dialog() {
+        }
+        dialog.loadAction = function () {
+            Loading.hideFrameLoading();
+            dialog.setFrameSize();
+        }
+        dialog.unloadAction = function () {
+            //destroy frame to save memory
+            $("dialogframe").destroy()
+        }
+        dialog.setFrameSize = function () {
+            var barHeight = -40;
+            if ($("dialogBar").style.display == "none") {
+                barHeight = 0;
+            }
+            var h = (document.body.offsetHeight + barHeight) + "px";
+            var w = document.body.offsetWidth + "px";
+            if (isIE()) {
+                h = (document.body.clientHeight + barHeight) + "px";
+                w = document.body.clientWidth + "px";
+            }
+            $("dialogframe").style.width = w;
+            $("frameTd").style.height = h;
+            $("dialogframe").style.height = h;
+        }
+
+        dialog.frameLoad = function () {
+            var cancelText = '返 回'
+            if (typeof dialogframe.onSave == 'function') {
+                dialog.addBtn('confirm', '确 定', dialogframe.onSave)
+                cancelText = '取 消'
+
+                //有时需要有返回空值的功能
+                if (typeof dialogframe.onClear == 'function') {
+                    dialog.addBtn('clear', '清 空', dialogframe.onClear)
+                }
+            }
+
+            dialog.addBtn('cancel', cancelText, dialog.close)
+
+        }
+
+        dialog.close = function () {
+            window.close()
+        }
+
+        dialog.addBtn = function (name, text, func) {
+            if ($(name))return;
+            var div = $("dialogBtnDiv");
+            var btn = new Element('button', {
+                type: 'button',
+                id: name,
+                name: name,
+                html: text,
+                events: {
+                    click: func
+                }
+            })
+
+            div.grab(btn);
+        }
+
+        dialog.addSpan = function (name, text, isLeft) {
+            if ($(name))return;
+            var div = $("dialogBtnDiv");
+            var span = new Element('SPAN', {
+                id: name,
+                html: text
+            });
+            if (isLeft && div.childNodes[0])
+                div.insertBefore(span, div.childNodes[0])
+            else
+                div.appendChild(span);
+        }
+
+        dialog.removeBtn = function (name) {
+            var div = $("dialogBtnDiv");
+            var btn = div.getElementById(name)
+            if (btn) btn.destroy()
+        }
+
+
+        dialog.viewHtml = function () {
+            url = dialogframe.location;
+            dialogframe.location = "view-source:" + url;
+        }
+
+
+        document.write("<title>");
+        document.write(getPara("title"));
+        for (var i = 0; i < 20; i++) {
+            document.write("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+        }
+        document.write("</title>");
+    </script>
+</head>
+<body bgcolor="#FFFFFF" class="dialogBg" onload="dialog.loadAction()" style="overflow:hidden"
+      onunload="dialog.unloadAction()">
+<table width="100%" style="height:100%" border="0" cellpadding="0" cellspacing="0">
+    <tr id="tDialog" style="display:none">
+        <td height=100% style="height:100%" valign="top">
+            <table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td id="frameTd" style="height:90%" bgcolor="#FFFFFF">
+                        <script language="javascript">
+                            document.write("<iframe name='dialogframe' id='dialogframe' onload='dialog.frameLoad()' marginwidth=0 marginheight=0 frameborder=0 scrolling='auto' style='width:100%;height:100%;'");
+                            document.write("src='" + getPara("src") + "'></iframe>");
+                        </script>
+                    </td>
+                </tr>
+                <tr id="dialogBar">
+                    <td height=40 style="border-top:1px solid #aaa" align="center">
+                        <form id="dialogBtnBarForm" name="dialogBtnBarForm" onsubmit="return false;">
+                            <div id="dialogBtnDiv"></div>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td id=tLoading class="dialogFrameBg">
+            <table height="100%" cellSpacing=0 cellPadding=5 width="100%" border="0" height="100%">
+                <tr>
+                    <td valign=middle align=center>
+
+                        <div id=tdLoadTitle height=25>&nbsp;</div>
+                        <div><img src="../images/frame/loading.gif" border="0" align="absmiddle"><B>正在载入，请稍等……</B></div>
+                        <br><br>
+                </tr>
+            </table>
+        </td>
+    </tr>
+
+</table>
+
+</body>
+</html>

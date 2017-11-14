@@ -1,0 +1,32 @@
+/*red skin*/
+.topMenuBg {
+    height: 39px;
+    background: url(../images/frame/menubg.gif);
+    color: #FFF;
+    text-align: left;
+}
+
+.topBtn A {
+    font-family: Simsun;
+    display: inline-block;
+    padding-left: 6px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-right: 6px;
+    background-color: transparent;
+    color: #FFFFFF;
+    text-decoration: none
+}
+
+.topBtn A:hover {
+    font-family: Simsun;
+    display: inline-block;
+    padding-left: 5px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-right: 5px;
+    border: 1px solid #FF000B;
+    background-color: #F67A80;
+    color: #FFFFFF;
+    text-decoration: none
+}

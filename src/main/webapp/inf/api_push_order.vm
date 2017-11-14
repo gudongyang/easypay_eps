@@ -1,0 +1,319 @@
+#set( $layout ="main.vm" )
+
+<div class="media-body" style="display: block;">
+    <h3>订单推送</h3>
+
+    <p>
+        该接口是易生线上微信，支付宝扫码下订单。
+        商家把要收款信息推到易生支付后台。 易生支付返回相应的数据。商家生产对应的二维码，供客户扫。
+    </p>
+
+    <br>
+
+    <h5>请求参数</h5>
+
+    <div id="request">
+        <table class="table table-bordered table-striped">
+            <colgroup>
+                <col class="span1">
+                <col class="span1">
+                <col class="span1">
+                <col class="span1">
+                <col class="span4">
+            </colgroup>
+            <thead>
+
+            <tr>
+                <td colspan="5">基本参数</td>
+            </tr>
+            <tr>
+                <th>参数</th>
+                <th>类型(长度)</th>
+                <th>描述</th>
+                <th>能否为空</th>
+                <th>示例</th>
+            </tr>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td> input_charset</td>
+                <td> String(10)</td>
+                <td> 编码</td>
+                <td>NO</td>
+                <td>UTF-8</td>
+            </tr>
+            <tr>
+                <td> version</td>
+                <td> String(10)</td>
+                <td> 接口版本</td>
+                <td> NO</td>
+                <td>N2</td>
+            </tr>
+
+            <tr>
+                <td> partner</td>
+                <td> String(15)</td>
+                <td> 合作方编码 易生系统分配和合作方，易生系统唯一</td>
+                <td> NO</td>
+                <td>123456123456789</td>
+            </tr>
+
+
+            <tr>
+                <td> service</td>
+                <td> String(10)</td>
+                <td>接口名称</td>
+                <td> NO</td>
+                <td>push</td>
+            </tr>
+
+
+            <tr>
+                <td> sign_type</td>
+                <td> String(5)</td>
+                <td>签名方法 大写的MD5 SHA1</td>
+                <td>NO</td>
+                <td>MD5</td>
+            </tr>
+
+            <tr>
+                <td> sign</td>
+                <td> String</td>
+                <td>签名值</td>
+                <td> NO</td>
+                <td>c8il4epm90wyn768fijgqhy8tay37gqa</td>
+            </tr>
+
+            <tr>
+                <td colspan="5">业务参数</td>
+            </tr>
+
+            <tr>
+                <td> amount</td>
+                <td> Number(10)</td>
+                <td>交易金额单位为分，收款1元，应该填100</td>
+                <td> NO</td>
+                <td>100</td>
+            </tr>
+
+            <tr>
+                <td> pay_type</td>
+                <td> String(10)</td>
+                <td>交易类型: wx(微信扫码) aliPay(支付宝扫码支付) jsPay(微信公共号支付) aliJsPay(支付宝服务窗支付)</td>
+                <td> NO</td>
+                <td>wx</td>
+            </tr>
+
+            <tr>
+                <td> order_id</td>
+                <td> String(26)</td>
+                <td>订单号字符串变长，最长可以26个字符,订单号商户系统唯一，不能重复</td>
+                <td> NO</td>
+                <td>20170707000001</td>
+            </tr>
+
+            <tr>
+                <td> business_time</td>
+                <td> String(19)</td>
+                <td>交易时间 yyyy-MM-dd HH:mm:ss</td>
+                <td> NO</td>
+                <td>2017-07-07 12:59:11</td>
+            </tr>
+
+
+            <tr>
+                <td> notify_url</td>
+                <td> String(50)</td>
+                <td>异步通知地址。url后面不能带参数,必须以http https 开头</td>
+                <td> YES</td>
+                <td>http://www.baidu.com</td>
+            </tr>
+
+            <tr>
+                <td> order_desc</td>
+                <td> String(30)</td>
+                <td>订单商品描述</td>
+                <td> YES</td>
+                <td>IPHONE</td>
+            </tr>
+            <tr>
+                <td> merchant_id</td>
+                <td> String(15)</td>
+                <td>易生系统分配给商户的唯一商户编码</td>
+                <td> NO</td>
+                <td>990513000000001</td>
+            </tr>
+
+            <tr>
+                <td> sub_merchant_id</td>
+                <td> String(15)</td>
+                <td>易生系统分配给商户的唯一子商户编码</td>
+                <td> YES</td>
+                <td>990513000000002</td>
+            </tr>
+
+            <tr>
+                <td> authCode</td>
+                <td> String(15)</td>
+                <td> 条码支付-授权码</td>
+                <td> YES</td>
+                <td>285972798240331033</td>
+            </tr>
+
+
+            </tbody>
+        </table>
+    </div>
+
+
+    <h5>返回参数</h5>
+
+    <div id="response">
+        <table class="table table-bordered table-striped">
+            <colgroup>
+                <col class="span1">
+                <col class="span1">
+                <col class="span1">
+                <col class="span1">
+                <col class="span4">
+            </colgroup>
+            <thead>
+
+            <tr>
+                <td colspan="5">基本参数</td>
+            </tr>
+            <tr>
+                <th>参数</th>
+                <th>类型(长度)</th>
+                <th>描述</th>
+                <th>能否为空</th>
+                <th>示例</th>
+            </tr>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td> is_success</td>
+                <td> String(1)</td>
+                <td> 后台是否成功接受到请求 T 成功 F 失败</td>
+                <td>NO</td>
+                <td>T</td>
+            </tr>
+
+            <tr>
+                <td> error_msg</td>
+                <td> String(50)</td>
+                <td> 错误描述,交易成功的时候不存在</td>
+                <td>YES</td>
+                <td>重复交易</td>
+            </tr>
+
+
+            <tr>
+                <td> sign_type</td>
+                <td> String(5)</td>
+                <td>签名方法 大写的MD5 SHA1</td>
+                <td>YES</td>
+                <td>MD5</td>
+            </tr>
+
+
+            <tr>
+                <td> sign</td>
+                <td> String(50)</td>
+                <td>签名结果</td>
+                <td> YES</td>
+                <td>8342649bb0b3b818c9bed5952503b3df</td>
+            </tr>
+
+
+            <tr>
+                <td colspan="5">业务参数</td>
+            </tr>
+
+            <tr>
+                <td> errCode</td>
+                <td> Number(2)</td>
+                <td>交易状态 00 交易成功状态</td>
+                <td> YES</td>
+                <td>00</td>
+            </tr>
+
+            <tr>
+                <td> errCodeDes</td>
+                <td> String(40)</td>
+                <td>交易状态描述</td>
+                <td> YES</td>
+                <td>推送订单成功</td>
+            </tr>
+
+            <tr>
+                <td> codeStr</td>
+                <td> String(50)</td>
+                <td>返回的二维码数据</td>
+                <td> YES</td>
+                <td>weixin://wxpay/bizpayurl?pr=yQK9GXr</td>
+            </tr>
+
+            <tr>
+                <td> orderNo</td>
+                <td> String(30)</td>
+                <td>易生支付系统唯一的订单号</td>
+                <td> YES</td>
+                <td>2920170718000001</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <div>
+
+        <h5>报文请求例子</h5>
+
+
+        <pre>
+ sign_type=MD5&amp;notify_url=http%3A%2F%2Fwww.baidu.com&amp;input_charset=UTF-8&amp;order_id=20170718000003&amp;version=2.1&amp;sign=1153023c272add92f7d8ebcceabf03b5&amp;amount=100&amp;business_time=2017-07-17+12%3A59%3A36&amp;order_desc=IPHONE&amp;pay_type=wx&amp;service=push&amp;partner=111222333444555&amp;merchant_id=99911010019      </pre>
+        <pre>
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;data&gt;
+      &lt;sign&gt;2f34765b5bf9de0b91b3ece954a43780&lt;/sign&gt;
+      &lt;is_success&gt;T&lt;/is_success&gt;
+      &lt;sign_type&gt;MD5&lt;/sign_type&gt;
+      &lt;request&gt;
+             &lt;sign_type&gt;MD5&lt;/sign_type&gt;
+             &lt;notify_url&gt;http://www.baidu.com&lt;/notify_url&gt;
+             &lt;input_charset&gt;UTF-8&lt;/input_charset&gt;
+             &lt;order_id&gt;20170718000003&lt;/order_id&gt;
+             &lt;version&gt;2.1&lt;/version&gt;
+             &lt;sign&gt;1153023c272add92f7d8ebcceabf03b5&lt;/sign&gt;
+             &lt;amount&gt;100&lt;/amount&gt;
+             &lt;business_time&gt;2017-07-17 12:59:36&lt;/business_time&gt;
+             &lt;order_desc&gt;IPHONE&lt;/order_desc&gt;
+             &lt;pay_type&gt;wx&lt;/pay_type&gt;
+             &lt;service&gt;push&lt;/service&gt;
+             &lt;partner&gt;111222333444555&lt;/partner&gt;
+             &lt;merchant_id&gt;99911010019&lt;/merchant_id&gt;
+      &lt;/request&gt;
+      &lt;response&gt;
+              &lt;errCode&gt;00&lt;/errCode&gt;
+              &lt;orderNo&gt;2920170718000003&lt;/orderNo&gt;
+              &lt;errCodeDes&gt;&#25512;&#36865;&#35746;&#21333;&#25104;&#21151;&lt;/errCodeDes&gt;
+              &lt;codeStr&gt;weixin://wxpay/bizpayurl?pr=mkW9mQf&lt;/codeStr&gt;
+      &lt;/response&gt;
+&lt;/data&gt;
+        </pre>
+
+
+        <span>错误返回例子</span>
+        <pre>
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;data&gt;
+      &lt;error_msg&gt;ILLEGAL_SIGN&lt;/error_msg&gt;
+      &lt;is_success&gt;F&lt;/is_success&gt;
+&lt;/data&gt;
+        </pre>
+
+
+</div>

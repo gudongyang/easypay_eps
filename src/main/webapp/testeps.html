@@ -1,0 +1,259 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>测试页面</title>
+    <script type="text/javascript" language="JavaScript" src="script/common.js"></script>
+    <script type="text/javascript" language="JavaScript">
+        function load() {
+            Eui.initDateInput("endDateTd", "结束日期", "searchForm", "endDateAndTime", "dateTime", false);
+
+            Eui.initDateInput("businessDateTd", "业务日期", "searchForm", "businessDate", "date", false);
+
+            Eui.initDateInput("endDateBlack", "开始生成黑名单日期", "testForm", "blackDateAndTime", "dateTime", false);
+        }
+        function login() {
+            DWR.call("ppsTransform.loginToPPS", function (v) {
+                alert("签到成功")
+            });
+        }
+
+        function downloadCumulativeBlack() {
+            DWR.call("ppsTransform.cumulativeBlack", function (v) {
+                alert(v)
+            });
+        }
+        function downloadCumulativeGray() {
+            DWR.call("ppsTransform.cumulativeGray", function (v) {
+                alert(v)
+            });
+        }
+        function parseBlackFiles() {
+            DWR.call("ppsTransform.cumulativeBlack", function (v) {
+                alert(v)
+            });
+        }
+        function uploadTrans() {
+            alert("见EPS010106 数据上传情况查询");
+            reutrn;
+            DWR.call("epsEAIService.autoUploadsTrades", function (v) {
+                alert(v)
+            });
+        }
+        function sendTransSummary() {
+            DWR.call("ppsTransform.sendTransSummary", function (v) {
+                alert(v)
+            });
+        }
+
+        var cTradeId = "";
+        var theDot = "====================";
+        function queryAuth() {
+            try {
+                DWR.call("rPosService.queryAuth", $("rposNo").value, $("nozzleNo").value, function (v) {
+                    $("rposInfo").innerHTML = "发现需要处理的交易：" + v.id;
+                    $("tradeId").value = v.id;
+                    cTradeId = v.id;
+                    alert(cTradeId);
+                }, {async: false});
+            }
+            catch (e) {
+                if (theDot.indexOf("=") != -1) {
+                    theDot = theDot.replace("=", ">");
+                }
+                else {
+                    theDot = "====================";
+                }
+                $("rposInfo").innerHTML = "RPOS正在运行：" + theDot;
+            }
+        }
+        var rThead;
+        function startRpos() {
+            $("startBtn1").disabled = true;
+            rThead = window.setInterval("queryAuth()", 1000);
+        }
+        function stopRpos() {
+            $("startBtn1").disabled = false;
+            window.clearInterval(rThead);
+            $("rposInfo").innerHTML = "请点击[开始轮询]运行RPOS"
+        }
+        var theDot2 = "====================";
+        function askForGrayCard() {
+            if (cTradeId == "")return;
+            try {
+                DWR.call("rPosService.askForGrayCard", $("tradeId").value, function (v) {
+                    $("rposInfo").innerHTML = "发现可以灰锁的交易：" + v;
+                }, {async: false});
+            }
+            catch (e) {
+                if (theDot2.indexOf("=") != -1) {
+                    theDot2 = theDot2.replace("=", ">");
+                }
+                else {
+                    theDot2 = "====================";
+                }
+                $("listenInfo").innerHTML = "监听正在运行：" + e.description + theDot;
+            }
+        }
+        var eThead;
+        function startListener() {
+            $("startBtn2").disabled = true;
+            eThead = window.setInterval("askForGrayCard()", 1000);
+        }
+        function stopListener() {
+            $("startBtn2").disabled = false;
+            window.clearInterval(eThead);
+            $("listenInfo").innerHTML = "请点击[开始轮询]运行监听"
+        }
+
+        function getDiscountInfo() {
+            DWR.call("rPosService.getDiscountInfo", $("tradeId").value, function (v) {
+                alert(v.id)
+            });
+        }
+
+        function sendSaleData() {
+            DWR.call("rPosService.sendSaleData", $("tradeId").value, $("volumn").value, $("sellData").value, $("date").value, function (v) {
+                $("payInfoDiv").innerHTML = "[" + v + "]";
+                alert(v)
+            });
+        }
+        function other() {
+            DWR.call("tradeService.getDetail", function (v) {
+                alert(v)
+            });
+        }
+        function setDate() {
+            $("date").value = today(true);
+        }
+        function showSound(divId, filePath) {
+            $(divId).innerHTML = "<EMBED src='" + filePath + "' style='HEIGHT:1px;WIDTH:1px' type='audio/mpeg' AUTOSTART='1' loop='0'></EMBED>";
+        }
+        function reconciliationSimilar() {
+            var isSummary;
+            var isClose;
+
+            if ($("isClosure").value == 2)
+                isClose = true;
+            else
+                isClose = false;
+
+            if ($("isSummary").value == 1)
+                isSummary = true;
+            else
+                isSummary = false;
+
+            DWR.call("rPosService2.processReconciliation", isSummary, $("endDateAndTime").value, $("businessDate").value, isClose, function (v) {
+                alert(v)
+            });
+        }
+
+        function uploadShift() {
+
+            DWR.call("epsEAIService.uploadShiftTrades", function (v) {
+                alert(v)
+            });
+        }
+
+        function calcTAC() {
+            DWR.call("tradeService.calcTac", cardAsn.value, amount.value, psamNo.value, psamSn.value, consumeType.value, occurTime.value, loyaltyDate.value, function (v) {
+                alert(v)
+            });
+        }
+    </script>
+</head>
+<body onload="load()">
+<div class="form">
+    <form id="testForm" name="testForm">
+        <div class="formTitle">测试界面</div>
+        <table width="100%" border="0" align="center" cellpadding="4" cellspacing="0" class="label5">
+            <tr>
+                <td>
+                    <button type="button" onclick="login()">eps签到</button>
+                </td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td>
+                    <button type="button" onclick="downloadCumulativeGray()">累计灰名单</button>
+                </td>
+                <td>
+                    <button type="button" onclick="downloadCumulativeBlack()">累计黑名单</button>
+                </td>
+                <td>
+                    <button type="button" onclick="parseBlackFiles()">EAI黑名单</button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button type="button" onclick="uploadTrans()">上传交易数据</button>
+                </td>
+                <td>
+                    <button type="button" onclick="sendTransSummary()">交易汇总信息</button>
+                </td>
+                <td>
+                    <button type="button" onclick="other()">测试其他功能</button>
+                </td>
+            </tr>
+            <tr>
+                <td id="endDateBlack">&nbsp;</td>
+            </tr>
+        </table>
+</div>
+</form>
+
+<div class="form">
+    <div class="formTitle">计算TAC<span id="payInfoDiv" class="red"></span></div>
+    <table cellSpacing="0" cellPadding="4" width="100%" border="0" class="label7">
+        <tr>
+            <td><label>IC卡卡号</label> <input type="text" name="cardAsn" id="cardAsn" maxlength=16></td>
+            <td><label>交易金额(分)</label> <input type="text" name="amount" id="amount" maxlength=8></td>
+        </tr>
+        <tr>
+            <td><label>交易类型标识(十进制)</label> <input type="text" name="consumeType" id="consumeType" maxlength=4></td>
+            <td><label>交易日期时间</label> <input type="text" name="occurTime" id="occurTime" maxlength=14></td>
+        </tr>
+        <tr>
+            <td><label>PSAM卡终端号</label> <input type="text" name="psamNo" id="psamNo" maxlength=12></td>
+            <td><label>PSAM卡流水号</label> <input type="text" name="psamSn" id="psamSn" maxlength=8></td>
+        </tr>
+        <tr>
+            <td><label>积分有效期</label> <input type="text" name="loyaltyDate" id="loyaltyDate" maxlength=8></td>
+            <td>
+                <button type="button" onclick="calcTAC()">计算TAC</button>
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="form">
+    <form id="searchForm" name="searchForm">
+        <div class="formTitle">测试方法，模拟班结和日结。</div>
+        <table width="100%" border="0" align="center" cellpadding="4" cellspacing="0">
+            <tr>
+                <td><select id="isSummary" name="isSummary">
+                    <option value="1">汇总</option>
+                    <option value="2">明细</option>
+                </select></td>
+                <td id="endDateTd">&nbsp;</td>
+                <td id="businessDateTd">&nbsp;</td>
+                <td><select id="isClosure" name="isClosure">
+                    <option value="1">班结</option>
+                    <option value="2">日结</option>
+                </select></td>
+            </tr>
+            <tr>
+                <td>
+                    <button type="button" onclick="reconciliationSimilar();">发送请求</button>
+                </td>
+                <td>
+                    <button type="button" onclick="uploadShift();">上传文件</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+<div id="soundDiv" style="display:none"></div>
+<div id="soundDiv2" style="display:none"></div>
+</body>
+</html>

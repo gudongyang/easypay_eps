@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="GB2312"?>
+
+<!--
+
+<!DOCTYPE bcp-service PUBLIC '-//BRS, Inc.//' 'tobedone.dtd'>
+
+    DTD:
+    <services (service)*)>
+
+       <service intf,impl>
+-->
+
+<magicApp>
+
+    <!-- 初始化数据 -->
+    <schema action="dictService_getSchema"/>
+    <initDb action="dictService_createNotExistDictTable"/>
+
+
+    <!-- 部署配置 -->
+    <deploy vendor="G&amp;D" application="前置系统" version="EPS_V_1.0"
+            copyright="Copyright 2006-2016"/>
+
+</magicApp>
+

@@ -1,0 +1,166 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="author" content="zhangjiaxin">
+    <title>灰交易查询</title>
+    <script language="javascript" src="/script/common.js" type="text/javascript"></script>
+    <script language="javascript" type="text/javascript">
+        //全局变量
+        var org = Common.cOrg();	//当前单位
+        var qt = {};				//数据表格对象
+        //页面加载方法
+        function load() {
+            Eui.showNavigation();
+            Eui.initBeginDateInput("beginDateTd", "起始日期", "searchForm", "beginDate", "endDate", "_pastDate", false);
+            Eui.initEndDateInput("endDateTd", "结束日期", "searchForm", "beginDate", "endDate", "_pastDate", false);
+            setPages(["listview", "detread"])
+            createTable();
+        }
+        //显示、刷新表格
+        function createTable() {
+            var columns = []
+            qt = new QueryTable("eps_gray_trade", "searchForm", "datalist", columns, {});
+        }
+        function operationFunc(v, r) {//处理数据 点id进入明细部分
+            return "<a href=# onclick=showDetail('" + r[5] + "')>显示明细</a>"
+        }
+        function downloadCumulativeGray() {
+            DWR.call("ppsTransform.cumulativeGray", function (v) {
+                showInformation(v);
+            });
+        }
+
+        //显示静态明细
+        function showDetail(id) {
+            if (id != null) {
+                var apply = Common.getValues("demandform");
+                DWR.call("epsService.getGrayTrade", id, function (apply) {
+                    switchPage("detread");
+                    Common.showDetail("detread", apply);
+                });
+            }
+        }
+    </script>
+</head>
+<body onload="load()">
+<!--页面导航-->
+<div class="nav">
+    <div id="nav">&nbsp;</div>
+</div>
+<div id="content">
+    <!--查询静态页面部分-->
+    <div id="listview">
+        <!--查询条件form-->
+        <div class="searchForm">
+            <form id="searchForm" name="searchForm" action="">
+                <input type="hidden" name="iid">
+                <table cellSpacing=0 cellPadding=4 width="100%" border=0>
+                    <tr>
+                        <td id="beginDateTd">&nbsp;</td>
+                        <td id="endDateTd">&nbsp;</td>
+                        <td>
+                            <button type="button" onclick="downloadCumulativeGray()">申请累计灰记录</button>
+                        </td>
+                        <td>
+                            <button type="button" onclick="qt.showTable()">查 询</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <div id="datalist"></div>
+    </div>
+    <!--明细静态显示部分-->
+    <div id="detread" style='display:none;'>
+        <form id="demandform" name="demandform">
+            <input type=hidden id=id name=id>
+            <div class=form>
+                <div class="formTitle">灰交易查询明细</div>
+                <table cellSpacing=0 cellPadding=4 width="100%" border=0 class="viewTable">
+                    <tr>
+                        <td>
+                            <label>IC卡卡号</label> <span id="asn"></span>
+                        </td>
+                        <td>
+                            <label>灰锁站点编号</label> <span id="orgNo"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>金额</label> <span id="amount"></span>
+                        </td>
+                        <td>
+                            <label>加密后的金额</label> <span id="gmac"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>灰锁交易的GTAC</label> <span id="gtac"></span>
+                        </td>
+                        <td>
+                            <label>灰锁日期</label> <span id="grayDate"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>IC卡交易标志</label> <span id="ICTransType"></span>
+                        </td>
+                        <td>
+                            <label>IC卡脱机交易流水号</label> <span id="ICTrace"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>EFT终端号</label> <span id="eftId"></span>
+                        </td>
+                        <td>
+                            <label>EFT流水号</label> <span id="eftTrace"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>产生GTAC所用的日期</label> <span id="gtacTime"></span>
+                        </td>
+                        <td>
+                            <label>购买的油品代码</label> <span id="fuelCode"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>加油量</label> <span id="fuelAmount"></span>
+                        </td>
+                        <td>
+                            <label>班次号</label> <span id="shiftNum"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>加油枪号</label> <span id="nozzle"></span>
+                        </td>
+                        <td>
+                            <label>授权码</label> <span id="authCode"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>操作员</label> <span id="operator"></span>
+                        </td>
+                        <td>
+                            <label>RPOS流水号</label> <span id="rposTrace"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>RPOS终端号</label> <span id="rposId"></span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <p>
+                <button type="button" onclick="switchPage('listview')">返 回</button>
+            </p>
+        </form>
+    </div>
+</body>
+</HTML>

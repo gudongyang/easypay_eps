@@ -1,0 +1,612 @@
+#set( $layout ="main.vm" )
+
+<div class="media-body" style="display: block;">
+    <h3>虚拟卡信息查询</h3>
+    <h5>请求参数</h5>
+
+    <div id="request">
+        <table class="table table-bordered table-striped">
+            <colgroup>
+                <col class="span1">
+                <col class="span1">
+                <col class="span1">
+                <col class="span1">
+                <col class="span4">
+            </colgroup>
+            <thead>
+
+            <tr>
+                <td colspan="5">基本参数</td>
+            </tr>
+            <tr>
+                <th>参数</th>
+                <th>类型(长度)</th>
+                <th>描述</th>
+                <th>能否为空</th>
+                <th>示例</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td> input_charset</td>
+                <td> String(10)</td>
+                <td> 编码</td>
+                <td>NO</td>
+                <td>UTF-8</td>
+            </tr>
+            <tr>
+                <td> version</td>
+                <td> String(10)</td>
+                <td> 接口版本</td>
+                <td> NO</td>
+                <td>N2</td>
+            </tr>
+
+            <tr>
+                <td> partner</td>
+                <td> String(15)</td>
+                <td> 合作方编码 易生系统分配和合作方，易生系统唯一</td>
+                <td> NO</td>
+                <td>123456123456789</td>
+            </tr>
+
+
+            <tr>
+                <td> service</td>
+                <td> String(10)</td>
+                <td>接口名称</td>
+                <td> NO</td>
+                <td>getVANDetails</td>
+            </tr>
+
+
+            <tr>
+                <td> sign_type</td>
+                <td> String(5)</td>
+                <td>签名方法 大写的MD5 SHA1</td>
+                <td>NO</td>
+                <td>MD5</td>
+            </tr>
+
+            <tr>
+                <td> sign</td>
+                <td> String</td>
+                <td>签名值</td>
+                <td> NO</td>
+                <td>c8il4epm90wyn768fijgqhy8tay37gqa</td>
+            </tr>
+            <tr>
+                <td colspan="5">业务参数</td>
+            </tr>
+
+            <tr>
+                <th>参数</th>
+                <th>类型(长度)</th>
+                <th>描述</th>
+                <th>能否为空</th>
+                <th>示例</th>
+            </tr>
+
+            <tr>
+                <td> virtualAccountNumber</td>
+                <td> Number（16）</td>
+                <td>完整15/16位VAN。</td>
+                <td> 有条件的（必须提供Integrator标识或VAN）</td>
+                <td></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+</div>
+<h5>返回参数</h5>
+
+<div id="response">
+    <table class="table table-bordered table-striped">
+        <colgroup>
+            <col class="span1">
+            <col class="span1">
+            <col class="span1">
+            <col class="span1">
+            <col class="span4">
+        </colgroup>
+        <thead>
+        <tr>
+            <td colspan="4">基本参数返回</td>
+        </tr>
+        <tr>
+            <th>参数</th>
+            <th>类型(长度)</th>
+            <th>描述</th>
+            <th>能否为空</th>
+            <th></th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr>
+            <td> input_charset</td>
+            <td> String(10)</td>
+            <td> 编码</td>
+            <td>NO</td>
+            <td>UTF-8</td>
+        </tr>
+        <tr>
+            <td> version</td>
+            <td> String(10)</td>
+            <td> 接口版本</td>
+            <td> NO</td>
+            <td>N2</td>
+        </tr>
+
+        <tr>
+            <td> partner</td>
+            <td> String(15)</td>
+            <td> 合作方编码 易生系统分配和合作方，易生系统唯一</td>
+            <td> NO</td>
+            <td>123456123456789</td>
+        </tr>
+
+
+        <tr>
+            <td> service</td>
+            <td> String(10)</td>
+            <td>接口名称</td>
+            <td> NO</td>
+            <td>settlement</td>
+        </tr>
+
+
+        <tr>
+            <td> sign_type</td>
+            <td> String(5)</td>
+            <td>签名方法 大写的MD5 SHA1</td>
+            <td>NO</td>
+            <td>MD5</td>
+        </tr>
+
+        <tr>
+            <td> sign</td>
+            <td> String</td>
+            <td>签名值</td>
+            <td> NO</td>
+            <td>c8il4epm90wyn768fijgqhy8tay37gqa</td>
+        </tr>
+
+        <tr>
+            <td colspan="5">业务参数</td>
+        </tr>
+
+        <tr>
+            <td> virtualAccountNumber</td>
+            <td> Number(16)</td>
+            <td> 完整15/16位VAN。</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td> activationDate</td>
+            <td> Number(8)YYYYMMDD格式</td>
+            <td> 启动日，月和年</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td> expiryDate</td>
+            <td> Number(7)MM/YYYY格式</td>
+            <td> 到期月份和年份。</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td> fullExpiryDate</td>
+            <td> Number(8)YYYYMMDD格式</td>
+            <td> VAN将关闭以进行新的授权要求的确切日期。</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td> cardholderName</td>
+            <td> 字母数字（50）</td>
+            <td> 持卡人姓名。</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td> cardSecurityCode</td>
+            <td> 字母数字（3）</td>
+            <td> 3位卡安全码（CVC2/CVV2）。</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td> cardType</td>
+            <td> 字母数字（10）</td>
+            <td> MASTERCARD</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td> country</td>
+            <td> 字母数字（2）</td>
+            <td> ECN的发行国家的国家，以ISO 3166-1-α-2格式表示—— 如GB、US、IT、AU。</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td> currency</td>
+            <td> 字母数字（3）</td>
+            <td> 发行VAN的货币，以ISO 4217格式表示——如GBP、USD、EUR、AUD。</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td> fundedCurrencyCode</td>
+            <td> 字母数字（3）</td>
+            <td> 用于给VAN充值的货币。 如果使用外汇或NLS货币，则可能与VAN货币不同。</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td> fundedAmount</td>
+            <td> Number</td>
+            <td> 从客户的余额中扣除的金额，以充值货币给VAN充值。 如果使用外汇或NLS货币，则可能与VAN金额不同。 此字段仅在VAN充值之后被填充。在发行NLS货币VAN后，这以充值货币表示。</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td> IsFunded</td>
+            <td> 布尔型</td>
+            <td> 指示VAN已从预付费余额得到充值，或仍在等待充值资金。</td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td> multiUseClosePercentage</td>
+            <td> Number</td>
+            <td> 对于多次使用VAN，将关闭VAN的点。 例如， 「95」是指一旦花费达到最大金额的95%，将关闭VAN幷返回任何未使用的余额。</td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td> minimumAuthorisationAmount</td>
+            <td> Number</td>
+            <td> 允许被授权的最小金额——以货币子单位表示（例如 USD$100.00 = 「10000」）。</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td> maximumAuthorisationAmount</td>
+            <td> Number</td>
+            <td> 允许被授权的最大金额——以货币子单位表示（例如 USD$100.00 = 「10000」）。</td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>merchantCategoryName</td>
+            <td> 字母数字（50）</td>
+            <td> 如果适用，此VAN使用锁定的普通类别，来自预定义清单。</td>
+            <td></td>
+            <td></td>
+        </tr>
+
+
+        <tr>
+            <td colspan="4">VAN使用详情</td>
+        </tr>
+        <tr>
+            <td> totalAuthorisedAmount</td>
+            <td> Number</td>
+            <td> 迄今为止该VAN处理过的授权交易的合计价值。</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td> totalRefundedAmount</td>
+            <td> Number</td>
+            <td> 迄今为止该VAN偿还的交易的合计价值。</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td> totalSettledAmount</td>
+            <td> Number</td>
+            <td> 迄今为止已经完全结算的授权交易的合计价值。</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td> netSettledAmount</td>
+            <td> Number</td>
+            <td> 结算减去退款的净额。</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td> qutstandingAuthorisations</td>
+            <td> Number</td>
+            <td> 等待最后结算的尚未偿付的授权的合计价值。</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td> availableBalance</td>
+            <td> Number</td>
+            <td> VAN的剩余余额。 对于单次使用VAN，这将是完全金额或零。 对于多次使用VAN，该金额将随着授权/结算的交易尔减少。</td>
+            <td></td>
+            <td></td>
+        </tr>
+
+
+        <tr>
+            <td colspan="4">标识</td>
+        </tr>
+        <tr>
+            <td> userReferences</td>
+            <td> userReference对象集合</td>
+            <td> 用户标识集合。 识别元和数据类型将与eNett支付平台内的配置相匹配。</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td> notes</td>
+            <td> 字母数字（1000）</td>
+            <td> 在VAN建立后提供的任何备注。</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr style="display: none>
+            <td colspan="4">事件集合</td>
+        </tr>
+        <tr style="display: none">
+            <td> vANHistoryCollection</td>
+            <td> vANHistory对象集合</td>
+            <td> 迄今为止，在此VAN上发生的事件的集合（见以下结构）。</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr style="display: none>
+            <td> fXHistoryCollection</td>
+            <td> fXHistory对象集合</td>
+            <td> 迄今为止与此VAN相关的已经发生的外汇订单集合（间以下结构）。 仅适用于FX VAN。</td>
+            <td></td>
+            <td></td>
+        </tr>
+        </tbody>
+    </table>
+    <p>在上述的「UserReferences」参数中的「UserReference」对象的格式如下：</p>
+    <table class="table table-bordered table-striped">
+        <colgroup>
+            <col class="span1">
+            <col class="span1">
+            <col class="span1">
+            <col class="span1">
+            <col class="span4">
+        </colgroup>
+        <thead>
+        <tr>
+            <th>参数</th>
+            <th>描述</th>
+            <th>类型</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr>
+            <td> identifier</td>
+            <td> 用户标识的唯一识别元，如用户标识配置画面中所定义的。</td>
+            <td> 字母数字（50）</td>
+        </tr>
+        <tr>
+            <td> value</td>
+            <td> 用户标识字段的值。 顺序和数据类型将与eNett支付平台内的配置相匹配。</td>
+            <td> 字母数字（50），但是将匹配为单个标识字段设定的格式</td>
+        </tr>
+        </tbody>
+    </table>
+    <p style="display: none">在上述的「VANHistoryCollectio」中的「VANHistory」对象的格式如下：</p>
+
+
+    <table class="table table-bordered table-striped" style="display: none">
+        <colgroup>
+            <col class="span1">
+            <col class="span1">
+            <col class="span1">
+            <col class="span1">
+            <col class="span4">
+        </colgroup>
+        <thead>
+        <tr>
+            <th>参数</th>
+            <th>类型(长度)</th>
+            <th>描述</th>
+            <th>字段次序</th>
+        </tr>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td> dateTime</td>
+            <td> 字母数字（14）YYYYMMDDHHMMSS格式</td>
+            <td> 事件发生时间，以UTC/GMT表示。</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td> activityType</td>
+            <td> 字母数字（20）</td>
+            <td> 活动类型，包括：<br>
+                发行<br>
+                修正<br>
+                取消<br>
+                授权<br>
+                结算<br>
+                验证失败<br>
+                退单拒付<br>
+                退单拒付撤销<br>
+                退款<br>
+                AuthReversal<br>
+                AuthVariance<br>
+                TestAuth<br>
+                FundVan<br>
+                关闭<br>
+            </td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td> user</td>
+            <td> 字母数字（50）</td>
+            <td> 执行本次活动的用户（仅适用于发行、修正、取消、退单拒付和关闭活动）。</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td> currency</td>
+            <td> 字母数字（3）</td>
+            <td> 适用于此事件的货币，以ISO 4217格式表示——如GBP、USD、EUR、AUD。</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td> amount</td>
+            <td> Number</td>
+            <td> 此事件的金额——以货币子单位表示（例如 USD$100.00 = 「10000」）。</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td> details</td>
+            <td> 字母数字（1000）</td>
+            <td> 事件相关的重要信息（如GUI显示）。
+
+                对于NLS货币VAN，该字段以NLS货币和充值货币线索结算、退单拒付和退款活动的金额。
+
+                结算、退单拒付和退款事件可能还包括FX费用金额。
+            </td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td> subActivityType</td>
+            <td> 字母数字（20）</td>
+            <td> 仅适用于结算、退单拒付、退单拒付撤销和退款活动类型。<br>
+
+                结算子活动类型：<br>
+                结算<br>
+                第二描述
+                <br>
+                退单拒付子活动类型：<br>
+                退单拒付<br>
+                仲裁退单拒付<br>
+
+                退单拒付撤销子活动类型：<br>
+                退单拒付撤销<br>
+
+                退款子活动类型：<br>
+                退款
+            </td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td> underReview</td>
+            <td> 布尔型</td>
+            <td> 对于结算获得的类型：<br>
+                指示结算是否获得批准，或者指示该结算是目前处于客户审查过程的NAT。<br>
+                对于退单拒付活动类型：<br>
+                指示退单拒付目前是否正在接受eNett International审查。<br>
+            </td>
+            <td></td>
+            <td></td>
+        </tr>
+        </tbody>
+    </table>
+
+
+    <div style="display: none">
+        <p>
+            在上述的「FXHistoryCollection」中的「fXHistory」对象的格式如下：<br>
+        </p>
+        <br>
+        <table class="table table-bordered table-striped">
+            <colgroup>
+                <col class="span1">
+                <col class="span1">
+                <col class="span1">
+                <col class="span1">
+                <col class="span4">
+            </colgroup>
+            <thead>
+            <tr>
+                <th>参数</th>
+                <th>类型(长度)</th>
+                <th>描述</th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td> dateTime</td>
+                <td> 字母数字（14）YYYYMMDDHHMMSS格式</td>
+                <td> 事件发生时间，以UTC/GMT表示。</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td> user</td>
+                <td> 字母数字（50）</td>
+                <td> 执行本次活动的用户（仅适用于发行、修正、取消和关闭活动）。
+                </td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td> sellCurrency</td>
+                <td> 字母数字（3）</td>
+                <td> 用于为此事件充值的卖出货币，以ISO 4217格式表示——如GBP、USD、EUR、AUD。</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td> buyCurrency</td>
+                <td> 字母数字（3）</td>
+                <td> 此事件中购入货币，以ISO 4217格式表示——如GBP、USD、EUR、AUD。</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td> sellAmount</td>
+                <td> Number</td>
+                <td> 此事件中的采购金额——以货币子单位表示（如 USD$100.00 = 「10000」）。</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td> buyAmount</td>
+                <td> Number</td>
+                <td> 此事件中的采购金额——以货币子单位表示（如 USD$100.00 = 「10000」）。
+                </td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td> rate</td>
+                <td> Number</td>
+                <td> 适用于此事件的FX汇率。</td>
+                <td></td>
+                <td></td>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+    <br>
+
+
+</div>

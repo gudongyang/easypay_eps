@@ -1,0 +1,13 @@
+<header columns="7">
+def e = Module.createByUniqueId(r[0])
+e.name=r[1]
+e.pageUrl=r[2]
+e.orgLevels= r[3]
+e.cond=r[4]
+e.actions=r[5]
+e.iconUrl=r[6]
+e.persistOrMerge()
+</header>
+//UniqueId                                                   , 模块名称                                 , 页面url				                     , orgLevel   , cond       , actions    , 页面icon   , 
+eps														,站级系统									,											,            ,            ,            ,/images/icon/01.gif, 
+eps.partnerMgnt											,合作方管理						,gw/partner_mgnt.html					,            ,            ,            ,            ,

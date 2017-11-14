@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="author" content="gutianyang">
+    <title>消费折扣管理</title>
+    <script language="javascript" src="../script/common.js" type="text/javascript"></script>
+    <script language="javascript" src="../script/rulemgnt.js" type="text/javascript"></script>
+    <script language="javascript" type="text/javascript">
+        //全局变量
+        var org = Common.cOrg();	//当前单位
+        var currentTab = "effective";
+        var RULETYPEID = 4
+
+
+        //页面加载方法
+        function load() {
+            Eui.showNavigation();
+            setPages(["searchForm1"]);
+
+            switchPage("searchForm1");
+
+            var thisYear = new Date().getYear()
+            var years = new Array()
+
+            for (var i = 0; i < 2; i++)
+                years.push({code: thisYear + i, text: thisYear + i})
+            Common._initSelect(searchForm.year, {
+                list: years, defCode: thisYear, onchange: function () {
+                    RuleMgnt.queryRuleSets()
+                }
+            });
+            RuleMgnt.queryRuleSets()
+        }
+
+    </script>
+</head>
+<body onload="load()">
+<!--页面导航-->
+<div class="nav">
+    <div id="nav">&nbsp;</div>
+</div>
+
+<div id="detailForm" style="width:95%">
+
+    <div id="searchForm1" class="searchForm" class="width100">
+        <form id="searchForm" name="searchForm">
+            <input type="hidden" name="orgId">
+            <table cellSpacing=0 cellPadding=6 width="100%" border=0>
+                <tr>
+                    <td id="orgTD">
+                    </td>
+                    <td>
+                        <label>年&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;份</label>
+                        <select name="year">
+                            <option></option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+        </form>
+
+        <div id="ruleSetTimes"></div>
+        <div id="detailDiv"></div>
+    </div>
+
+</div>
+</body>
+</html>

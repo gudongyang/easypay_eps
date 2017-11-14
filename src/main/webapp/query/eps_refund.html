@@ -1,0 +1,140 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="author" content="zhangjiaxin">
+    <title>EPS交易查询</title>
+    <script language="javascript" src="/script/common.js" type="text/javascript"></script>
+    <script language="javascript" type="text/javascript">
+        //全局变量
+        var org = Common.cOrg();	//当前单位
+        var qt = {};				//数据表格对象
+        var refundqt = {};
+        //页面加载方法
+        function load() {
+            Eui.showNavigation();
+            Eui.initDateInput("businessDateTd", "业务日期", "searchForm", "beginDate", "_pastDate", false);
+
+            setPages(["listview", "detread"]);
+            createTable();
+        }
+        //显示、刷新表格
+        function createTable() {
+            var columns = []
+            var form = $("searchForm");
+            form.accountType.value = 1;
+            form.status.value = 2;
+            columns[9] = {title: "操作", width: "15", render: operationFunc, align: "center", order: false};
+            qt = new QueryTable("eps_trade_refund", "searchForm", "datalist", columns, {});
+        }
+        function refundTable() {
+            var columns = []
+            refundqt = new QueryTable("refund_trade", "detailForm", "detaillist", columns, {});
+        }
+        function operationFunc(v, r) {//处理数据 点id进入明细部分
+            return "<a href=# onclick=showDetail('" + r[0] + "')>退货明细</a>"
+        }
+
+        //显示列表
+        var loyAmountField = "<input type=text name=loyaltyAmount readonly class=readonly>";
+        var amountField = "<input type=text name=amount readonly class=readonly>";
+        var balanceField = "";
+        function showDetail(id) {
+            if (id == null)
+                return;
+            var form = $("detailForm");
+            form.tradeId.value = id;
+            DWR.call("epsService.getTrade", id, function (apply) {
+                form.cardAsn.value = apply.cardAsn;
+                form.offlineTxNo.value = apply.offlineTxNo;
+                form.tac.value = apply.tac;
+                form.amount.value = Format.fenToYuan(apply.amount);
+            });
+            refundTable();
+            refundqt.showTable();
+            $('formTitle').innerHTML = "交易:" + id + "退货明细";
+            switchPage("detread");
+        }
+
+        function refundAll() {
+            var form = $("detailForm");
+            var id = form.tradeId.value
+            if (!showQuestion("原交易:" + id + "<br>全额退货" + "<br>退货后不可撤消，是否继续?"))
+                return;
+            DWR.call("tradeService.refundICTotal", id, function (apply) {
+                var result = apply.split(":");
+                showInformation(result[0] + "<br>退货金额:" + Format.fenToYuan(result[1]) + "元");
+            });
+            showDetail(id)
+        }
+
+        function refund() {
+            var form = $("detailForm");
+            var amount = Format.yuanToFen(form.refundAmount.value);
+            var id = form.tradeId.value
+            if (!showQuestion("原交易:" + id + "<br>退货金额:" + Format.fenToYuan(amount) + "元<br>退货后不可撤消，<确定>继续?"))
+                return;
+            refundTrade(id, amount);
+            refundqt.showTable();
+            showDetail(id)
+        }
+
+        function refundTrade(id, refundAmount) {
+            DWR.call("tradeService.refundIC", id, refundAmount, function (apply) {
+                var result = apply.split(":");
+                showInformation(result[0] + "<br>退货金额:" + Format.fenToYuan(result[1]) + "元");
+            });
+        }
+
+    </script>
+</head>
+<body onload="load()">
+<!--页面导航-->
+<div class="nav">
+    <div id="nav">&nbsp;</div>
+</div>
+<!--查询静态页面部分-->
+<div id="listview">
+    <!--查询条件form-->
+    <div class="searchForm">
+        <form id="searchForm" name="searchForm" action="">
+            <table cellSpacing=0 cellPadding=4 width="100%" border=0>
+                <tr>
+                    <td id="businessDateTd">&nbsp;</td>
+                    <input type="hidden" name="accountType" readonly class="readonly">
+                    <input type="hidden" name="status" readonly class="readonly">
+                    <td><label>交易ID</label> <input type="text" name="tradeId"></td>
+                    <td>
+                        <button type="button" onclick="qt.showTable()">查 询</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <div id="datalist"></div>
+</div>
+<!--明细静态显示部分-->
+<div id="detread" style='display:none;'>
+    <div class="detailForm">
+        <form id="detailForm" name="detailForm">
+            <div class="formTitle" id="formTitle">退货明细</div>
+            <input type="hidden" name="tradeId" readonly class="readonly" maxlength=20/>
+            <input type="hidden" name="cardAsn" readonly class="readonly" maxlength=20/>
+            <input type="hidden" name="offlineTxNo" readonly class="readonly" maxlength=20/>
+            <input type="hidden" name="tac" readonly class="readonly" maxlength=20/>
+            <label>原交易金额(元)</label> <input type=text name="amount" id="amount" onblur="checkV(this,'amount',true)"
+                                           maxlength=20 readonly class="readonly"/>
+            <label>退货金额(元)</label> <input type=text name="refundAmount" id="refundAmount" onblur="checkV(this,'amount')"
+                                          maxlength=20>
+            <button type="button" onclick="refund()">退货</button>
+            <button type="button" onclick="refundAll()">全额退货</button>
+            <button type="button" onclick="refundqt.showTable()">刷新</button>
+        </form>
+    </div>
+    <div id="detaillist"></div>
+    <p>
+        <button type="button" onclick="switchPage('listview')">返回</button>
+    </p>
+</div>
+</body>
+</HTML>

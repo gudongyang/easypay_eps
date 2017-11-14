@@ -1,0 +1,360 @@
+#set( $layout ="main.vm" )
+
+<div class="media-body" style="display: block;">
+    <h3>快捷支付请求验证码</h3>
+
+    <p>
+        该接口提供快捷支付功能。不用用户输入密码。<br>
+        每笔交易都要上送结算信息。<br>
+        结算卡debit_bank_code 支持银行如表 1
+        <br>
+        消费卡credit_bank_code 除表1中的银行 还支持表中2的银行
+    </p>
+
+    <br>
+
+
+
+    <h5>请求参数</h5>
+
+    <div id="request">
+        <table class="table table-bordered table-striped">
+            <colgroup>
+                <col class="span1">
+                <col class="span1">
+                <col class="span1">
+                <col class="span1">
+                <col class="span4">
+            </colgroup>
+            <thead>
+
+            <tr>
+                <td colspan="5">基本参数</td>
+            </tr>
+            <tr>
+                <th>参数</th>
+                <th>类型(长度)</th>
+                <th>描述</th>
+                <th>能否为空</th>
+                <th>示例</th>
+            </tr>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td> input_charset</td>
+                <td> String(10)</td>
+                <td> 编码</td>
+                <td>NO</td>
+                <td>UTF-8</td>
+            </tr>
+            <tr>
+                <td> version</td>
+                <td> String(10)</td>
+                <td> 接口版本</td>
+                <td> NO</td>
+                <td>N2</td>
+            </tr>
+
+            <tr>
+                <td> partner</td>
+                <td> String(15)</td>
+                <td> 合作方编码 易生系统分配和合作方，易生系统唯一</td>
+                <td> NO</td>
+                <td>123456123456789</td>
+            </tr>
+
+
+            <tr>
+                <td> service</td>
+                <td> String(10)</td>
+                <td>接口名称</td>
+                <td> NO</td>
+                <td>qpay</td>
+            </tr>
+
+
+            <tr>
+                <td> sign_type</td>
+                <td> String(5)</td>
+                <td>签名方法 大写的MD5 SHA1</td>
+                <td>NO</td>
+                <td>MD5</td>
+            </tr>
+
+            <tr>
+                <td> sign</td>
+                <td> String</td>
+                <td>签名值</td>
+                <td> NO</td>
+                <td>c8il4epm90wyn768fijgqhy8tay37gqa</td>
+            </tr>
+
+            <tr>
+                <td colspan="5">业务参数</td>
+            </tr>
+
+            <tr>
+                <td> order_id</td>
+                <td> String(26)</td>
+                <td>订单号字符串变长，最长可以26个字符,订单号商户系统唯一，不能重复</td>
+                <td> NO</td>
+                <td>20170707000001</td>
+            </tr>
+
+
+            <tr>
+                <td> merchant_id</td>
+                <td> String(15)</td>
+                <td>易生`系统分配给商户的唯一商户编码</td>
+                <td> NO</td>
+                <td>990513000000001</td>
+            </tr>
+            <tr>
+                <td> subMchId</td>
+                <td> String(15)</td>
+                <td>子商户号</td>
+                <td> YES</td>
+                <td>990513000000002</td>
+            </tr>
+
+
+            <tr>
+                <td> amount</td>
+                <td> Number(10)</td>
+                <td>交易金额单位为分，收款1元，应该填100</td>
+                <td> NO</td>
+                <td>100</td>
+            </tr>
+
+            <tr>
+                <td> business_time</td>
+                <td> String(19)</td>
+                <td>交易时间 yyyy-MM-dd HH:mm:ss</td>
+                <td> NO</td>
+                <td>2017-07-07 12:59:11</td>
+            </tr>
+            <tr>
+                <td> notify_url</td>
+                <td> String(50)</td>
+                <td>异步通知地址。url后面不能带参数,必须以http https 开头</td>
+                <td> YES</td>
+                <td>http://www.baidu.com</td>
+            </tr>
+
+            <tr>
+                <td> order_desc</td>
+                <td> String(30)</td>
+                <td>订单商品描述</td>
+                <td> NO</td>
+                <td>IPHONE</td>
+            </tr>
+            <tr>
+                <td> name</td>
+                <td> String(30)</td>
+                <td>持卡人姓名</td>
+                <td> NO</td>
+                <td>刘德华</td>
+            </tr>
+
+            <tr>
+                <td> id_no</td>
+                <td> String</td>
+                <td>持卡人身份证</td>
+                <td> NO</td>
+                <td>320683XXXXXXXXXXXX</td>
+            </tr>
+            <tr>
+                <td> acc</td>
+                <td> String</td>
+                <td>信用卡卡号</td>
+                <td> NO</td>
+                <td>1234567890000</td>
+            </tr>
+            <tr>
+                <td> cvv</td>
+                <td> String</td>
+                <td>信用卡背面3位数字</td>
+                <td> NO</td>
+                <td>123</td>
+            </tr>
+
+            <tr>
+                <td> validity_date</td>
+                <td> String(4)</td>
+                <td>信用卡有效期格式 MMYY 如果是 2019年05月 写成 0519</td>
+                <td> NO</td>
+                <td>0519</td>
+            </tr>
+
+            <tr>
+                <td> mobile</td>
+                <td> String</td>
+                <td>信用卡预留号码</td>
+                <td> NO</td>
+                <td>13651654XXX</td>
+            </tr>
+            <tr>
+                <td> settlement_acc</td>
+                <td> String</td>
+                <td>结算账户</td>
+                <td> NO</td>
+                <td>121212121212121212</td>
+            </tr>
+
+
+            <tr>
+                <td> credit_bank_code</td>
+                <td> String</td>
+                <td>消费银行卡银行代码 如招行 308</td>
+                <td> NO</td>
+                <td>308</td>
+            </tr>
+
+            <tr>
+                <td> debit_bank_code</td>
+                <td> String</td>
+                <td>结算行银行代码 如招行 308</td>
+                <td> NO</td>
+                <td>308</td>
+            </tr>
+
+            <tr>
+                <td> t0_fee</td>
+                <td> Number</td>
+                <td>单位分</td>
+                <td> NO</td>
+                <td>t0 额外的手续费</td>
+            </tr>
+
+            <tr>
+                <td> fee_rate</td>
+                <td> Number(2,2)</td>
+                <td>纯小数</td>
+                <td> NO</td>
+                <td>0.1 表示收取 千分之一的手续费</td>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+
+    <h5>返回参数</h5>
+
+    <div id="response">
+        <table class="table table-bordered table-striped">
+            <colgroup>
+                <col class="span1">
+                <col class="span1">
+                <col class="span1">
+                <col class="span1">
+                <col class="span4">
+            </colgroup>
+            <thead>
+
+            <tr>
+                <td colspan="5">基本参数</td>
+            </tr>
+            <tr>
+                <th>参数</th>
+                <th>类型(长度)</th>
+                <th>描述</th>
+                <th>能否为空</th>
+                <th>示例</th>
+            </tr>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td> is_success</td>
+                <td> String(1)</td>
+                <td> 后台是否成功接受到请求 T 成功 F 失败</td>
+                <td>NO</td>
+                <td>T</td>
+            </tr>
+
+            <tr>
+                <td> error_msg</td>
+                <td> String(50)</td>
+                <td> 错误描述,交易成功的时候不存在</td>
+                <td>YES</td>
+                <td>重复交易</td>
+            </tr>
+
+
+            <tr>
+                <td> sign_type</td>
+                <td> String(5)</td>
+                <td>签名方法 大写的MD5 SHA1</td>
+                <td>YES</td>
+                <td>MD5</td>
+            </tr>
+
+
+            <tr>
+                <td> sign</td>
+                <td> String(50)</td>
+                <td>签名结果</td>
+                <td> YES</td>
+                <td>8342649bb0b3b818c9bed5952503b3df</td>
+            </tr>
+
+
+            <tr>
+                <td colspan="5">业务参数</td>
+            </tr>
+
+
+            <tr>
+                <td> errCode</td>
+                <td> Number(2)</td>
+                <td>交易状态 00 别的状态都要通过代付查询接口确认。为00时客户将收到交易验证码</td>
+                <td> YES</td>
+                <td>00</td>
+            </tr>
+
+            <tr>
+                <td> errCodeDes</td>
+                <td> String(40)</td>
+                <td>交易状态描述</td>
+                <td> YES</td>
+                <td>单笔代付提交成功</td>
+            </tr>
+
+            <tr>
+                <td> orderNo</td>
+                <td> String(26)</td>
+                <td>易生系统唯一订单号</td>
+                <td> YES</td>
+                <td>2320170707000001</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <h4>银行表1</h4>
+        #parse("bank_code.vm")
+
+
+        <h4>银行表2</h4>
+
+        <pre>
+412    温州银行
+413    广州银行
+420    大连银行
+423    杭州银行
+424    南京银行
+439    锦州银行
+441    重庆银行
+442    哈尔滨银行
+447    兰州银行
+448    南昌银行
+492    龙江银行
+508    江苏银行
+1401   上海农村商业银行
+1413   重庆农村商业银行
+    </pre>
+    </div>
+
+
+</div>

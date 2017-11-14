@@ -1,0 +1,213 @@
+#set( $layout ="main.vm" )
+
+
+<h3>快捷支付确认</h3>
+
+<p>
+    提交客户的验证码。完成支付<br>
+    客户支付成功后，自动结算到提交的结算卡片中.
+
+</p>
+
+<br>
+<h5>请求参数</h5>
+
+<div id="request">
+    <table class="table table-bordered table-striped">
+        <colgroup>
+            <col class="span1">
+            <col class="span1">
+            <col class="span1">
+            <col class="span1">
+            <col class="span4">
+        </colgroup>
+        <thead>
+
+        <tr>
+            <td colspan="5">基本参数</td>
+        </tr>
+        <tr>
+            <th>参数</th>
+            <th>类型(长度)</th>
+            <th>描述</th>
+            <th>能否为空</th>
+            <th>示例</th>
+        </tr>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td> input_charset</td>
+            <td> String(10)</td>
+            <td> 编码</td>
+            <td>NO</td>
+            <td>UTF-8</td>
+        </tr>
+        <tr>
+            <td> version</td>
+            <td> String(10)</td>
+            <td> 接口版本</td>
+            <td> NO</td>
+            <td>N2</td>
+        </tr>
+
+        <tr>
+            <td> partner</td>
+            <td> String(15)</td>
+            <td> 合作方编码 易生系统分配和合作方，易生系统唯一</td>
+            <td> NO</td>
+            <td>123456123456789</td>
+        </tr>
+
+
+        <tr>
+            <td> service</td>
+            <td> String(10)</td>
+            <td>接口名称</td>
+            <td> NO</td>
+            <td>qpay_confirm</td>
+        </tr>
+
+
+        <tr>
+            <td> sign_type</td>
+            <td> String(5)</td>
+            <td>签名方法 大写的MD5 SHA1</td>
+            <td>NO</td>
+            <td>MD5</td>
+        </tr>
+
+        <tr>
+            <td> sign</td>
+            <td> String</td>
+            <td>签名值</td>
+            <td> NO</td>
+            <td>c8il4epm90wyn768fijgqhy8tay37gqa</td>
+        </tr>
+
+        <tr>
+            <td colspan="5">业务参数</td>
+        </tr>
+
+        <tr>
+            <td> order_id</td>
+            <td> String(26)</td>
+            <td>订单号字符串变长，最长可以26个字符,订单号商户系统唯一，不能重复</td>
+            <td> NO</td>
+            <td>20170707000001</td>
+        </tr>
+
+
+        <tr>
+            <td> merchant_id</td>
+            <td> String(15)</td>
+            <td>易生`系统分配给商户的唯一商户编码</td>
+            <td> NO</td>
+            <td>990513000000001</td>
+        </tr>
+        <tr>
+            <td> check_code</td>
+            <td> String(6)</td>
+            <td>验证码</td>
+            <td> NO</td>
+            <td>606313</td>
+        </tr>
+        
+        </tbody>
+    </table>
+</div>
+
+
+<h5>返回参数</h5>
+
+<div id="response">
+    <table class="table table-bordered table-striped">
+        <colgroup>
+            <col class="span1">
+            <col class="span1">
+            <col class="span1">
+            <col class="span1">
+            <col class="span4">
+        </colgroup>
+        <thead>
+
+        <tr>
+            <td colspan="5">基本参数</td>
+        </tr>
+        <tr>
+            <th>参数</th>
+            <th>类型(长度)</th>
+            <th>描述</th>
+            <th>能否为空</th>
+            <th>示例</th>
+        </tr>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td> is_success</td>
+            <td> String(1)</td>
+            <td> 后台是否成功接受到请求 T 成功 F 失败</td>
+            <td>NO</td>
+            <td>T</td>
+        </tr>
+
+        <tr>
+            <td> error_msg</td>
+            <td> String(50)</td>
+            <td> 错误描述,交易成功的时候不存在</td>
+            <td>YES</td>
+            <td>重复交易</td>
+        </tr>
+
+
+        <tr>
+            <td> sign_type</td>
+            <td> String(5)</td>
+            <td>签名方法 大写的MD5 SHA1</td>
+            <td>YES</td>
+            <td>MD5</td>
+        </tr>
+
+
+        <tr>
+            <td> sign</td>
+            <td> String(50)</td>
+            <td>签名结果</td>
+            <td> YES</td>
+            <td>8342649bb0b3b818c9bed5952503b3df</td>
+        </tr>
+
+
+        <tr>
+            <td colspan="5">业务参数</td>
+        </tr>
+
+
+        <tr>
+            <td> errCode</td>
+            <td> Number(2)</td>
+            <td>交易状态 00 交易受理成功。 是否支付成功以通知交易为准</td>
+            <td> YES</td>
+            <td>00</td>
+        </tr>
+
+        <tr>
+            <td> errCodeDes</td>
+            <td> String(40)</td>
+            <td>交易状态描述</td>
+            <td> YES</td>
+            <td>单笔代付提交成功</td>
+        </tr>
+
+        <tr>
+            <td> orderNo</td>
+            <td> String(26)</td>
+            <td>易生系统唯一订单号</td>
+            <td> YES</td>
+            <td>2320170707000001</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+

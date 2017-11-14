@@ -1,0 +1,37 @@
+#set( $layout ="main.vm" )
+
+<div  class="media-body" style="display: block;">
+    <h3>文档说明</h3>
+
+    <h5>阅读对象</h5>
+    <p>
+        本文档适用于希望集成易生支付解决方案的应用程序开发人员。 实施此解决方案需要软件开发技能。
+        您必须编写使用API请求和答复字段的代码，将易生支付解决方案集成到您现有的订单管理系统中
+    </p>
+
+    <h5>测试参数</h5>
+
+   <pre>
+        partner=100000000000000
+        signKey=h7jjcXPx7n2bmtK7L3mb
+        version=N2
+        merchant_id=99911010019
+        推送地址: http://wx.dianpayer.com//new_gateway.do
+   </pre>
+
+
+    <ul class="nav nav-list"> <li class="divider"></li> </ul>
+
+    <h5>惯例</h5>
+
+    <ul class="nav nav-list"> <li class="divider"></li> </ul>
+    <h5>Note:</h5>
+
+    Note包含有用的建议或重要说明，以成功与易生支付整合
+
+    <hr>
+    <h5>联系我们</h5>
+
+    任何技术问题，技术支持团队:
+    任何非技术问题，业务团队:
+</div>

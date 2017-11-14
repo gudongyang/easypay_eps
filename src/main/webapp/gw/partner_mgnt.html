@@ -1,0 +1,235 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="author" content="wangyuguo">
+    <title>接入机构管理</title>
+    <script type="text/javascript" src="../script/common.js"></script>
+
+    <script type="text/javascript">
+        //全局变量
+        var qt = null;//数据表格对象
+
+
+        function load() {
+            setPages(["editview", "listview"])
+            Eui.showNavigation();
+            Common._initSelect("id_enc_method", {
+                list: [{text: 'DESede/ECB/PKCS5Padding加密', code: '1'}, {text: 'base64', code: '100'}],
+                defCode: "1"
+
+            });
+
+
+            Common._initSelect("id_signMethod", {
+                list: [{text: 'md5', code: '1'}, {text: 'SHA1withRSA', code: '2'}, {text: "sha1", code: '3'}],
+                defCode: "1"
+
+            });
+
+
+            Common.initBoxOrRadio("id_status", {
+                list: [{text: '可用', code: '1'}, {text: '不可用', code: '2'}],
+                name: "text",
+                value: "code",
+                isRadio: "true",
+                boxName: 'status'
+            })
+
+            createTable()
+        }
+
+        /**查询部分**/
+        //创建queryTable
+        function createTable() {
+            var columns = [];
+            columns[20] = {render: operFunc, name: "oper", title: "操作", width: "10%"};
+            qt = new QueryTable("partner_mgnt", "searchForm", "datalist", columns, {
+                buttons: [{value: "添加接入参数", actions: onAdd}]
+            });
+
+        }
+        function onAdd() {
+            switchPage("editview")
+            $("addForm").reset();
+            $("addForm").encKey.value = randomStr(24);
+            $("addForm").signKey.value = randomStr(20);
+
+
+        }
+
+        function operFunc(v, r) {
+
+            var html = "<a href='#' onclick=\"onDel(" + r.hId + ");return false;\">删除</a>&nbsp;"
+            html += "<a href='#' onclick=\"onEdit(" + r.hId + ");return false;\">编辑</a>"
+            return html
+
+        }
+
+        function onEdit(id) {
+            switchPage("editview")
+            DWR.call("gatewayService.loadPartner", id, function (v) {
+                Common.setValues($("addForm"), v)
+            })
+        }
+
+
+        function onDel(id) {
+            if (showQuestion("是否删除接入机构参数!")) {
+                DWR.call("gatewayService.removePartner", id, function (v) {
+                    Common.setValues($("addForm"), v)
+                    qt.showTable()
+                })
+            }
+        }
+
+
+        function onCancel() {
+            switchPage("listview")
+        }
+
+        function onEditSave() {
+            var partner = Common.getValues("addForm")
+            DWR.call("gatewayService.savePartner", partner, function (v) {
+                switchPage("listview")
+            }, {blockScreen: true})
+
+        }
+
+        function refresh() {
+            qt.showTable()
+        }
+    </script>
+</head>
+<body onload="load()">
+<!--页面导航-->
+<div class="nav">
+    <div id="nav">&nbsp;</div>
+</div>
+
+<!--查询&列表-->
+<div id="listview"><!--查询form-->
+    <div class="searchForm">
+        <form id="searchForm" name="searchForm">
+
+            <table cellSpacing="0" cellPadding="4" width="100%" class="col3 label6" border="0">
+                <tr>
+                    <td>
+                        <label>机构编码</label><input type="text" name="partnerId">
+                        <button onclick="refresh()" type="button">查询</button>
+                        <span style="color: red">(代付固定检查白名单)</span>
+                    </td>
+                </tr>
+            </table>
+        </form>
+
+    </div>
+
+    <div id="datalist"></div>
+</div>
+
+<!--增加/编辑明细页面部分-->
+<div id="editview" style="display: none;">
+    <form id="addForm" name="addForm">
+        <input type="hidden" name="id">
+        <!--<input type="hidden" name="signMethod" value="1">-->
+
+        <div class="form">
+            <div class="formTitle">接入方信息</div>
+            <table cellSpacing="0" cellPadding="4" width="100%" border="0"
+                   class="col2 label6">
+
+                <tr>
+                    <td><label>机构名称</label> <input type="text" name="name"
+                                                   onblur="checkV(this,'',true);"></td>
+                    <td><label>机构编码</label> <input type="text" name="partnerId"
+                                                   onblur="checkV(this,'',true);"> <font
+                            color="red">提示:15个字符</font></td>
+                </tr>
+                <tr>
+                    <td><label>加密秘钥</label> <input type="text" name="encKey" onblur="checkV(this,'',true);">
+                        <span class="des">*</span> <font color="red">24个字符 DESede/ECB/PKCS5Padding ECB
+                            PKCS5Padding</font>
+                    </td>
+                    <td><label>签名秘钥</label> <input type="text" name="signKey" onblur="checkV(this,'',true);"> <span
+                            class="des">*</span><font color="red">提示:MD5 20个字符,如果是RSA签名 该域填写Pki秘钥的标示</font></td>
+                </tr>
+                <tr>
+                    <td><label>接口版本</label> <input type="text" name="interfaceVersion"
+                                                   onblur="checkV(this,'',true);">
+                        <span class="des">*</span> <font color="red">传过来的版本不能比这个低, 当前为2.1。</font></td>
+                    <td><label>状态</label> <span id="id_status"></span>
+                        <span class="des">*</span> <font color="red">1 可用 2 不可用 默认设置为可用</font></td>
+                </tr>
+                <tr>
+                    <td colspan=""><label>是否启用ip检查, 默认设置为不检查</label>是<input value="true" checked type="radio"
+                                                                            name="checkIp"
+                                                                            onblur="checkV(this,'',true);">
+                        否<input type="radio" name="checkIp" value="false" onblur="checkV(this,'',true);">
+                    </td>
+
+                    <td colspan=""><label>签名方法</label>
+
+                        <select name="signMethod" id="id_signMethod"></select>
+
+                        <span class="des">*</span><font color="red">提示:1 MD5 2 SHA1withRSA 3 sha1 (请求时不限制,通知以后台配置为准)
+                            默认设置为MD5 </font>
+
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td colspan="2"><label>接入机构权限 </label>
+                        <input name="level" id="level" name="level" value="_1_"/>
+                        <span class="des">*</span> <font color="red">_1_ 只能调用level 的接口</font></td>
+                </tr>
+
+                <tr>
+                    <td colspan="2"><label>加密方法</label> <select id="id_enc_method" name="encMethod"></select></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><label>IP地址</label>
+                        <textarea name="ips" id="ips" cols="100" rows="5"></textarea>
+                        <span class="des">*</span> <font color="red">多个IP,分割</font></td>
+                </tr>
+
+                <tr>
+                    <td colspan="2"><label>不验证IP白名单的 serviceType </label>
+                        <textarea name="serviceTypes" id="serviceTypes" cols="100" rows="5"></textarea>
+                        <span class="des">*</span> <font color="red">多个serviceType,分割</font></td>
+                </tr>
+
+
+                <tr>
+                    <td colspan="2">
+                        <p><font color="red">如果版本号以N开头就是新接口。新接口不加密数据</font></p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div align="center">
+            <button type="button" name="savebt" onclick="onEditSave()">保 存</button>
+            <button type="button" onclick="onCancel()">取 消</button>
+        </div>
+    </form>
+</div>
+<!--明细页面部分-->
+<div id="detview" style="display: none;"></div>
+
+</body>
+<script>
+    function randomStr(length) {
+        var data = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+        var str = "";
+        for (var i = 0; i < length; i++) {
+            var r = Math.floor(Math.random() * data.length);
+            str = str + data[r];
+//            console.log(r)
+//            console.log(str)
+        }
+        return str;
+    }
+
+</script>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>导航栏</title>
+    <script type="text/javascript" language="JavaScript" src="../script/common.js"></script>
+    <script type="text/javascript" language="JavaScript" src="../script/tree.js"></script>
+    <script type="text/javascript" language="JavaScript">
+        var tree;
+        function writeTree() {
+            var pageId = getPara("id");
+            var rootName = unesc(getPara("name"));
+            var uniqueId = getPara("uniqueId");
+            if (pageId) {
+                tree = new LoadTree(rootName, pageId, null, null, "../images/tree/root.png", "../images/tree/root.png");
+                $("treeDiv").innerHTML = tree;
+                tree.obj = {id: pageId, name: rootName, uniqueId: uniqueId}
+                tree.expand();
+            }
+        }
+        function _startLoadXmlTree(sSrc, jsNode) {
+            DWR.call("loginService.findModules", sSrc, function (result) {
+                _xmlFileLoaded(result, jsNode);
+            });
+        }
+
+        function _createNode(obj) {
+            var icon = null
+            var node = createTreeNode(obj.pageUrl, obj.name, obj.id, "javascript:showProperty()", icon, icon);
+            node.obj = obj;
+            return node;
+        }
+
+        function showProperty() {
+            var node = tree.getSelected();
+            var modulePath = node.text;
+            while (node.parentNode) {
+                modulePath = node.parentNode.text + ">" + modulePath;
+                var aNode = node.parentNode;
+                node = aNode;
+            }
+            var url = tree.getSelected().obj.pageUrl;
+            if (url) {
+                parent.mainFrame.location.href = appRoot + url;
+                if (parent.$("frameset1")) {
+                    parent.$("frameset1").longdesc = modulePath;
+                }
+            }
+        }
+
+    </script>
+</head>
+<body onload="writeTree()">
+<div id="treeDiv" class="treeDiv"></div>
+</body>
+</html>

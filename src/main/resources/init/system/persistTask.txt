@@ -1,0 +1,20 @@
+<header columns="8">
+def e = TaskDef.createByAction(r[2])
+e.code=r[0]
+e.name=r[1]
+e.day=r[3]
+e.time=r[4]
+e.period=r[5]?Long.parseLong(r[5]):0
+e.enabled=r[6]!='false'
+e.servers=r[7]
+e.persistOrMerge()
+
+e.persistOrMerge()
+</header>
+
+//code,			name,		action,								day,	time,	period,		enabled,	servers
+sessionStatus,	更新会话状态,		sessionService_syncStatus,			,		,		300,		,
+groovyCheck,	检查groovy,		groovyService_checkScripts,			,		,		2,			,	
+queryCheck,		检查query,		ejbQueryService_checkSqlFiles,		,		,		2,			,	
+propertyCheck,	检查properties,	i18nService_checkPropertyFiles,		,		,		2,			,
+manualGC,		强制内存收集,		profileService_manualGC,			,		,		1800,		,	

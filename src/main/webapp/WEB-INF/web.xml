@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.2//EN"
+        "http://java.sun.com/j2ee/dtds/web-app_2_2.dtd">
+
+<web-app>
+
+
+    <servlet>
+        <servlet-name>cardservlet</servlet-name>
+        <servlet-class>com.gd.web.servlet.DispatchServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>cardservlet</servlet-name>
+        <url-pattern>/dwr/exec/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>cardservlet</servlet-name>
+        <url-pattern>/d/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>cardservlet</servlet-name>
+        <url-pattern>*.html</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>cardservlet</servlet-name>
+        <url-pattern>*.htm</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>cardservlet</servlet-name>
+        <url-pattern>/script/common.js</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>cardservlet</servlet-name>
+        <url-pattern>/virtual/photo/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>cardservlet</servlet-name>
+        <url-pattern>/upload/photo</url-pattern>
+    </servlet-mapping>
+    <welcome-file-list>
+        <welcome-file>login.html</welcome-file>
+    </welcome-file-list>
+
+</web-app>
+

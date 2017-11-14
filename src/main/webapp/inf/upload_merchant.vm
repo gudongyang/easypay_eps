@@ -1,0 +1,388 @@
+#set( $layout ="main.vm" )
+
+<div class="media-body" style="display: block;">
+    <h3>上传商户信息</h3>
+
+    <p>
+        该接口提供给代理商系统上传商户信息功能
+        <br>
+    	支持的银行列表如下表<br>
+
+    </p>
+    #parse("bank_code.vm")
+    <h5>请求参数</h5>
+
+    <div id="request">
+        <table class="table table-bordered table-striped">
+            <colgroup>
+                <col class="span1">
+                <col class="span1">
+                <col class="span1">
+                <col class="span1">
+                <col class="span4">
+            </colgroup>
+            <thead>
+
+            <tr>
+                <td colspan="5">基本参数</td>
+            </tr>
+            <tr>
+                <th>参数</th>
+                <th>类型(长度)</th>
+                <th>描述</th>
+                <th>能否为空</th>
+                <th>示例</th>
+            </tr>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td> input_charset</td>
+                <td> String(10)</td>
+                <td> 编码</td>
+                <td>NO</td>
+                <td>UTF-8</td>
+            </tr>
+            <tr>
+                <td> version</td>
+                <td> String(10)</td>
+                <td> 接口版本</td>
+                <td> NO</td>
+                <td>N2</td>
+            </tr>
+
+            <tr>
+                <td> partner</td>
+                <td> String(15)</td>
+                <td> 合作方编码 易生系统分配和合作方，易生系统唯一</td>
+                <td> NO</td>
+                <td>123456123456789</td>
+            </tr>
+
+
+            <tr>
+                <td> service</td>
+                <td> String(10)</td>
+                <td>接口名称</td>
+                <td> NO</td>
+                <td>upload_merchant</td>
+            </tr>
+
+
+            <tr>
+                <td> sign_type</td>
+                <td> String(5)</td>
+                <td>签名方法 大写的MD5 SHA1</td>
+                <td>NO</td>
+                <td>MD5</td>
+            </tr>
+
+            <tr>
+                <td> sign</td>
+                <td> String</td>
+                <td>签名值</td>
+                <td> NO</td>
+                <td>c8il4epm90wyn768fijgqhy8tay37gqa</td>
+            </tr>
+
+            <tr>
+                <td colspan="5">业务参数</td>
+            </tr>
+
+
+            <tr>
+                <td> merchant_id</td>
+                <td> String(15)</td>
+                <td>上层机构编号 易生系统分配给商户的唯一商户编码</td>
+                <td> NO</td>
+                <td>000000000000002</td>
+            </tr>
+            <tr>
+                <td> name</td>
+                <td> String</td>
+                <td>商户名称</td>
+                <td> NO</td>
+                <td>测试商户A</td>
+            </tr>
+            <tr>
+                <td> realName</td>
+                <td> String</td>
+                <td>法人姓名</td>
+                <td> NO</td>
+                <td>张三</td>
+            </tr>
+            <tr>
+                <td> id_no</td>
+                <td> String(18)</td>
+                <td>身份证号</td>
+                <td> NO</td>
+                <td>310228199001010001</td>
+            </tr>
+
+            <tr>
+                <td> id_no_issued</td>
+                <td> String</td>
+                <td>签发机关</td>
+                <td> YES</td>
+                <td>上海市公安局闵行分局</td>
+            </tr>
+            <tr>
+                <td> id_no_valid</td>
+                <td> String(10)</td>
+                <td>身份证有效期 yyyy-MM-dd</td>
+                <td> YES</td>
+                <td>2020-01-30</td>
+            </tr>
+
+            <tr>
+                <td> mobile</td>
+                <td> String(11)</td>
+                <td>手机号</td>
+                <td> NO</td>
+                <td>13011122222</td>
+            </tr>
+            <tr>
+                <td> business_province</td>
+                <td> String</td>
+                <td>经营省份</td>
+                <td> NO</td>
+                <td>江苏省</td>
+            </tr>
+            <tr>
+                <td> business_city</td>
+                <td> String</td>
+                <td>经营城市</td>
+                <td> NO</td>
+                <td>南京市</td>
+            </tr>
+            <tr>
+                <td> address</td>
+                <td> String</td>
+                <td>详细地址</td>
+                <td> NO</td>
+                <td>上海路一号</td>
+            </tr>
+            <tr>
+                <td> user_type</td>
+                <td> Number(1)</td>
+                <td>商户类型 个体户传2,企业商户传3</td>
+                <td> NO</td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td> license_num</td>
+                <td> String</td>
+                <td>营业执照编号 企业商户必传</td>
+                <td> YES</td>
+                <td>903101156809776075</td>
+            </tr>
+            <tr>
+                <td> wx_string</td>
+                <td> String</td>
+                <td>微信商户分类 请参考<a href="category_wx.htm">微信商户分类表</a></td>
+                <td> NO</td>
+                <td>企业---电商/团购---海淘</td>
+            </tr>
+            <tr>
+                <td> ali_string</td>
+                <td> String</td>
+                <td>支付宝商户分类 请参考<a href="category_ali.htm">支付宝商户分类表</a></td>
+                <td> NO</td>
+                <td>美食---中餐---云南菜</td>
+            </tr>
+            <tr>
+                <td> acc_type</td>
+                <td> Number(1)</td>
+                <td>银行账户类型 对公账户传1,对私账户传2</td>
+                <td> NO</td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td> bank</td>
+                <td> Number</td>
+                <td>银行编码</td>
+                <td> NO</td>
+                <td>105</td>
+            </tr>
+            <tr>
+                <td> kh_province</td>
+                <td> String</td>
+                <td>开户银行省份</td>
+                <td> NO</td>
+                <td>上海市</td>
+            </tr>
+            <tr>
+                <td> kh_city</td>
+                <td> String</td>
+                <td>开户银行地市</td>
+                <td> NO</td>
+                <td>上海市</td>
+            </tr>
+            <tr>
+                <td> bank_name</td>
+                <td> String</td>
+                <td>开户网点</td>
+                <td> NO</td>
+                <td>中国建设银行上海七莘路支行</td>
+            </tr>
+            <tr>
+                <td> bank_accName</td>
+                <td> String</td>
+                <td>银行户名</td>
+                <td> NO</td>
+                <td>张三</td>
+            </tr>
+            <tr>
+                <td> bank_acc</td>
+                <td> String</td>
+                <td>银行卡号</td>
+                <td> NO</td>
+                <td>6217001210033089409</td>
+            </tr>
+            <tr>
+                <td> fee_rate</td>
+                <td> Double</td>
+                <td>刷卡费率 百分比,最多两位小数</td>
+                <td> NO</td>
+                <td>0.60</td>
+            </tr>
+            <tr>
+                <td> wx_fee_rate</td>
+                <td> Double</td>
+                <td>微信费率 百分比,最多两位小数</td>
+                <td> NO</td>
+                <td>0.61</td>
+            </tr>
+            <tr>
+                <td> ali_fee_rate</td>
+                <td> Double</td>
+                <td>支付宝费率 百分比,最多两位小数</td>
+                <td> NO</td>
+                <td>0.55</td>
+            </tr>
+            <tr>
+                <td> isv_pid</td>
+                <td> String</td>
+                <td>支付宝企业账户ID 没有则传0</td>
+                <td> NO</td>
+                <td>0</td>
+            </tr>
+
+
+            </tbody>
+        </table>
+    </div>
+
+
+    <h5>返回参数</h5>
+
+    <div id="response">
+        <table class="table table-bordered table-striped">
+            <colgroup>
+                <col class="span1">
+                <col class="span1">
+                <col class="span1">
+                <col class="span1">
+                <col class="span4">
+            </colgroup>
+            <thead>
+
+            <tr>
+                <td colspan="5">基本参数</td>
+            </tr>
+            <tr>
+                <th>参数</th>
+                <th>类型(长度)</th>
+                <th>描述</th>
+                <th>能否为空</th>
+                <th>示例</th>
+            </tr>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td> is_success</td>
+                <td> String(1)</td>
+                <td> 后台是否成功接受到请求 T 成功 F 失败</td>
+                <td>NO</td>
+                <td>T</td>
+            </tr>
+
+            <tr>
+                <td> error_msg</td>
+                <td> String(50)</td>
+                <td> 错误描述,交易成功的时候不存在</td>
+                <td>YES</td>
+                <td>重复交易</td>
+            </tr>
+
+
+            <tr>
+                <td> sign_type</td>
+                <td> String(5)</td>
+                <td>签名方法 大写的MD5 SHA1</td>
+                <td>YES</td>
+                <td>MD5</td>
+            </tr>
+
+
+            <tr>
+                <td> sign</td>
+                <td> String(50)</td>
+                <td>签名结果</td>
+                <td> YES</td>
+                <td>8342649bb0b3b818c9bed5952503b3df</td>
+            </tr>
+
+
+            <tr>
+                <td colspan="5">业务参数</td>
+            </tr>
+
+
+            <tr>
+                <td> errCode</td>
+                <td> Number(2)</td>
+                <td>录入状态 00 别的状态都要通过代付查询接口确认。为00时客户将收到交易验证码</td>
+                <td> YES</td>
+                <td>00</td>
+            </tr>
+
+            <tr>
+                <td> errCodeDes</td>
+                <td> String(40)</td>
+                <td>错误信息描述 errCode=00时不返回该字段</td>
+                <td> YES</td>
+                <td>商户名不能为空</td>
+            </tr>
+            
+            <tr>
+                <td> merchantId</td>
+                <td> String(15)</td>
+                <td>录入商户编号</td>
+                <td> YES</td>
+                <td>9001002001</td>
+            </tr>
+            
+            <tr>
+                <td> name</td>
+                <td> String</td>
+                <td>录入商户名</td>
+                <td> YES</td>
+                <td>测试商户A</td>
+            </tr>
+            
+            <tr>
+                <td> msg</td>
+                <td> String</td>
+                <td>录入返回信息</td>
+                <td> YES</td>
+                <td>上传商户信息成功</td>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+
+</div>

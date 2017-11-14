@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="GB2312"?>
+
+<magicDict>
+    <item type="dict_type" code="account_type" text="帐户类型" editable="true"/>
+    <item type="dict_type" code="trade_status" text="交易状态" editable="true"/>
+    <item type="dict_type" code="trade_type" text="交易类型" editable="true"/>
+    <item type="dict_type" code="adjust_type" text="调整类型" editable="true"/>
+    <item type="dict_type" code="reconciliation_status" text="对账状态" editable="true"/>
+</magicDict>

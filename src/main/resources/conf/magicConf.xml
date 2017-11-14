@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="GB2312"?>
+
+<!--
+
+<!DOCTYPE magicWeb PUBLIC '-//BRS, Inc.//' 'tobedone.dtd'>
+
+    DTD:
+    <magicConf (globalBean)*)>
+
+       <globalBean class,id>
+-->
+
+<magicConf>
+    <!--
+        *******************************
+        ********** 服务器 *************
+        *******************************
+    -->
+    <server name="eps" port="9998"/>
+
+
+    <!--
+        *******************************
+        ********** 全局变量 ***********
+        *******************************
+    -->
+    <property name="encoding" value="UTF-8"/>
+    <property name="web.interceptor" value="loginService_checkAcl"/>
+    <service name="taskStoreService" impl="com.gd.magic.task.DbTaskStoreService"/>
+
+</magicConf>

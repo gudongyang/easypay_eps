@@ -1,0 +1,32 @@
+//上下文根，修改服务上下文根后配置
+var contextRoot = "$!{magicWebHelper.contextPath}/"
+//页面文件根目录相对上下文根的路径，一般不需配置
+var pagePath = "";
+//页面文件绝对根路径
+var appRoot = contextRoot + pagePath;
+
+//通用js
+document.write("<script type='text/javascript' language='javascript' src='"+appRoot+"script/mootools.js'></script>");
+document.write("<script type='text/javascript' language='javascript' src='"+appRoot+"script/mootools-more.js'></script>");
+document.write("<script type='text/javascript' language='javascript' src='"+appRoot+"script/funlib.js'></script>");
+document.write("<script type='text/javascript' language='javascript' src='"+appRoot+"script/loading.js'></script>");
+document.write("<script type='text/javascript' language='javascript' src='"+appRoot+"script/check.js'></script>");
+document.write("<script type='text/javascript' language='javascript' src='"+appRoot+"script/dwr.js'></script>");
+document.write("<script type='text/javascript' language='javascript' src='"+appRoot+"script/qt.js'></script>");
+document.write("<script type='text/javascript' language='javascript' src='"+appRoot+"script/site.js'></script>");
+document.write("<script type='text/javascript' language='javascript' src='"+appRoot+"script/theme.js'></script>");
+
+//eui风格js
+document.write("<script type='text/javascript' language='javascript' src='"+appRoot+"script/eui.js'></script>");
+document.write("<script type='text/javascript' language='javascript' src='"+appRoot+"script/format.js'></script>");
+
+//卡项目配置
+document.write("<script type='text/javascript' language='javascript' src='"+appRoot+"script/constants.js'></script>");
+document.write("<script type='text/javascript' language='javascript' src='"+appRoot+"script/project.js'></script>");
+
+//各模块js
+document.write("<script type='text/javascript' language='javascript' src='"+appRoot+"script/systemmgnt.js'></script>");
+
+//解决frame内页面与导航数不同步的问题
+history.forward();
+

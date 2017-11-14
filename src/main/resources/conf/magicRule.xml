@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<magicRule>
+
+
+    <ruleType id="4" name="消费折扣">
+        <judge name="contractType" text="合同类别" fact="contractType"/>
+        <judge name="cardUserLevel" text="客户级别" fact="cardUserLevel"/>
+        <judge name="goodsCategory" text="商品类别" fact="goodsCategory"/>
+        <judge name="amountRange" text="消费金额" fact="amountRange" type="numRange"/>
+        <judge name="shops" text="商户" fact="org" type="nums"/>
+
+        <result name="discountRate" text="折扣率" type="double"/>
+        <result name="discountAmount" text="折扣金额" type="long"/>
+    </ruleType>
+</magicRule>

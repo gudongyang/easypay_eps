@@ -1,0 +1,24 @@
+
+.titleLayer {
+    position: absolute;
+    background: #efefef;
+    color: blue;
+    cursor: move;
+}
+
+.evtout {
+    background: #CBE2FF;
+    height: 20px;
+    border: 1px solid #696969;
+}
+
+.evtover {
+    background: #FFFFCC;
+    border: 1px solid #000000;
+    cursor: move;
+}
+
+.datatitle {
+    background: #fcfcfc;
+    border: 1px solid #888888;
+}

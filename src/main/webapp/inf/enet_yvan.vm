@@ -1,0 +1,307 @@
+#set( $layout ="main.vm" )
+
+<div class="media-body" style="display: block;">
+    申请虚拟账户<br>
+    <h3>申请虚拟账户</h3>
+    <h5>请求参数</h5>
+
+    <div id="request">
+        <table class="table table-bordered table-striped">
+            <colgroup>
+                <col class="span1">
+                <col class="span1">
+                <col class="span1">
+                <col class="span1">
+                <col class="span4">
+            </colgroup>
+            <thead>
+
+            <tr>
+                <td colspan="5">基本参数</td>
+            </tr>
+            <tr>
+                <th>参数</th>
+                <th>类型(长度)</th>
+                <th>描述</th>
+                <th>能否为空</th>
+                <th>示例</th>
+            </tr>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td> input_charset</td>
+                <td> String(10)</td>
+                <td> 编码</td>
+                <td>NO</td>
+                <td>UTF-8</td>
+            </tr>
+            <tr>
+                <td> version</td>
+                <td> String(10)</td>
+                <td> 接口版本</td>
+                <td> NO</td>
+                <td>N2</td>
+            </tr>
+
+            <tr>
+                <td> partner</td>
+                <td> String(15)</td>
+                <td> 合作方编码 易生系统分配和合作方，易生系统唯一</td>
+                <td> NO</td>
+                <td>123456123456789</td>
+            </tr>
+
+
+            <tr>
+                <td> service</td>
+                <td> String(10)</td>
+                <td>接口名称</td>
+                <td> NO</td>
+                <td>issueVAN</td>
+            </tr>
+
+
+            <tr>
+                <td> sign_type</td>
+                <td> String(5)</td>
+                <td>签名方法 大写的MD5 SHA1</td>
+                <td>NO</td>
+                <td>MD5</td>
+            </tr>
+
+            <tr>
+                <td> sign</td>
+                <td> String</td>
+                <td>签名值</td>
+                <td> NO</td>
+                <td>c8il4epm90wyn768fijgqhy8tay37gqa</td>
+            </tr>
+            <tr>
+                <td colspan="5">业务参数</td>
+            </tr>
+            <tr>
+                <th>参数</th>
+                <th>类型(长度)</th>
+                <th>描述</th>
+                <th>能否为空</th>
+                <th>示例</th>
+            </tr>
+            <tr>
+                <td>integratorReference</td>
+                <td> 字母数字（50）</td>
+                <td>来自整合系统标识本次交易的唯一标识。 应被保持以透过API用于修订或取消。</td>
+                <td> YES</td>
+                <td></td>
+            </tr>
+
+
+            <tr>
+                <td> activationDate</td>
+                <td> yyyy-MM-dd hh:mm:ss</td>
+                <td>VAN日期应打开以便授权要求。</td>
+                <td> YES</td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td> expiryDate</td>
+                <td> yyyy-MM-dd hh:mm:ss</td>
+                <td>VAN日期应关闭以便授权要求（从启动日期起长达24个月）。</td>
+                <td> NO</td>
+                <td></td>
+            </tr>
+
+
+            <tr>
+                <td> maximumAuthorisationAmount</td>
+                <td> Number</td>
+                <td>允许被授权的最大金额——以货币子单位表示（例如 USD100.00 = 「10000」;
+                    JPY100 = 「100」）。
+                </td>
+                <td> YES</td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td> multiUseClosePercentage</td>
+                <td> Number</td>
+                <td>对于多次使用VAN，设定应关闭VAN的点。 例如， 「95」是指一旦花费达到最大金额的95%，关闭VAN并返回任何未使用的余额。</td>
+                <td> 有条件的（如果多次使用= FALSE，则不需要）</td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td> merchantCategoryName</td>
+                <td> 字母数字（50）</td>
+                <td>处理交易的商户所属的普通类别，来自预定义清单。</td>
+                <td> 有条件的（如果MCC字段已填充，则不需要）</td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td> notes</td>
+                <td> 字母数字（1000）</td>
+                <td>可选备注。</td>
+                <td> NO</td>
+                <td></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+</div>
+
+<div id="response">
+    <table class="table table-bordered table-striped">
+        <colgroup>
+            <col class="span1">
+            <col class="span1">
+            <col class="span1">
+            <col class="span1">
+            <col class="span4">
+        </colgroup>
+        <thead>
+
+        <h5>返回参数</h5>
+
+        <div id="response">
+            <table class="table table-bordered table-striped">
+                <colgroup>
+                    <col class="span1">
+                    <col class="span1">
+                    <col class="span1">
+                    <col class="span1">
+                    <col class="span4">
+                </colgroup>
+                <thead>
+
+                <tr>
+                    <td colspan="5">基本参数</td>
+                </tr>
+                <tr>
+                    <th>参数</th>
+                    <th>类型(长度)</th>
+                    <th>描述</th>
+                    <th>能否为空</th>
+                    <th>示例</th>
+                </tr>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td> is_success</td>
+                    <td> String(1)</td>
+                    <td> 后台是否成功接受到请求 T 成功 F 失败</td>
+                    <td>NO</td>
+                    <td>T</td>
+                </tr>
+
+                <tr>
+                    <td> error_msg</td>
+                    <td> String(50)</td>
+                    <td> 错误描述,交易成功的时候不存在</td>
+                    <td>YES</td>
+                    <td>重复交易</td>
+                </tr>
+
+
+                <tr>
+                    <td> sign_type</td>
+                    <td> String(5)</td>
+                    <td>签名方法 大写的MD5 SHA1</td>
+                    <td>YES</td>
+                    <td>MD5</td>
+                </tr>
+
+
+                <tr>
+                    <td> sign</td>
+                    <td> String(50)</td>
+                    <td>签名结果</td>
+                    <td> YES</td>
+                    <td>8342649bb0b3b818c9bed5952503b3df</td>
+                </tr>
+
+
+                <tr>
+                    <td colspan="5">业务参数</td>
+                </tr>
+
+                <tr>
+                    <td> errCode</td>
+                    <td> Number(2)</td>
+                    <td>交易状态 00 交易成功状态。</td>
+                    <td> YES</td>
+                    <td>00</td>
+                </tr>
+
+                <tr>
+                    <td> errCodeDes</td>
+                    <td> String(40)</td>
+                    <td>交易状态描述</td>
+                    <td> YES</td>
+                    <td>单笔代付提交成功</td>
+                </tr>
+
+                <tr>
+                    <td> virtualAccountNumber</td>
+                    <td> Number(18)</td>
+                    <td>完整15/16位VAN</td>
+                    <td> NO</td>
+                    <td></td>
+                </tr>
+
+
+                <tr>
+                    <td> expiryDate</td>
+                    <td> 数字（6） MM/YYYY格式</td>
+                    <td>到期月份和年份</td>
+                    <td> NO</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td> fullExpiryDate</td>
+                    <td> 数字（8） YYYYMMDD格式</td>
+                    <td>VAN将关闭以进行新的授权要求的确切日期</td>
+                    <td> NO</td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td> cardSecurityCode</td>
+                    <td> 字母数字（3）</td>
+                    <td>3位卡安全码（CVC2/CVV2）</td>
+                    <td> NO</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>generationDate</td>
+                    <td> 数字（8） YYYYMMDD格式</td>
+                    <td>产生VAN的日期和时间，UTC/GMT表示
+                    </td>
+                    <td> NO</td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td>activationDate</td>
+                    <td> 数字（8） YYYYMMDD格式</td>
+                    <td>启动日，月和年</td>
+                    <td> NO</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>maximumAuthAmount</td>
+                    <td> 数字</td>
+                    <td>要求中提供的金额的响应</td>
+                    <td> NO</td>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+</div>

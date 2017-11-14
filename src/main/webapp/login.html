@@ -1,0 +1,79 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>EPS系统登录</title>
+    <script type="text/javascript" language="JavaScript" src="script/common.js"></script>
+    <script type="text/javascript" language="JavaScript">
+        var isLogin = false;
+        var win = null;
+        function hideLoading() {
+        }
+        function login() {
+            var fm = $("login_form");
+            DWR.call('loginService.login', fm.password.value, showWorkbench);
+        }
+        function showWorkbench() {
+            document.location.href = "workbench.html";
+        }
+        function resetForm() {
+            var fm = $("login_form");
+            fm.password.value = "";
+            fm.password.focus();
+        }
+        function loadAction() {
+//		try{
+//		DWR.call("epsService.getEpsInitStatus", function(result) {
+//			if(!result){
+//				document.location.href = "/query/eps_init.html";
+//			}
+//		},{async:false});
+//		DWR.call("loginService.findSystemState",function(result){
+//			$("sysVersion").innerHTML = result.application + result.version;
+//		});
+
+//		}
+//		catch(e){
+//			showWarning("服务尚未启动或连接数据库失败");
+//		}
+            var fm = $("login_form");
+            if (fm) fm.password.focus();
+        }
+    </script>
+</head>
+<body style="margin-top: 0px; background-color: #EEEEEE;" onload="loadAction()" oncontextmenu="return false">
+<table width="100%" height="100%" border="0" align="center" cellpadding="1" cellspacing="0">
+    <tr>
+        <td valign="top" align="center"><br><br><br><br>
+            <table width="669" height="308" cellPadding="0" cellSpacing="0" border=0
+                   background="images/login/login.jpg">
+                <tr>
+                    <td height="60" align="right"><span id="sysVersion">&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td height="248" vAlign="bottom" align="center">
+                        <form id="login_form" name="login_form" method="post" style="display:inherit"
+                              onsubmit="login();return false;">
+                            <table width="500" border="0" cellspacing="0" cellpadding="0" height="80" align="center"
+                                   class="col3">
+                                <tr>
+                                    <td>
+                                        <span>密 码 <input type="password" name="password" size="14"
+                                                         onblur="checkV(this,'',true,'请输入密码')"></span>
+                                    </td>
+                                    <td>
+                                        <input type="submit" name="submit" value="登 录">&nbsp;&nbsp;
+                                        <input type="reset" name="reset" value="重 置" onclick="resetForm();">
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
